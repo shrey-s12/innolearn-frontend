@@ -1,18 +1,17 @@
 import { Outlet, useLocation } from "react-router-dom";
-// import StudentViewCommonHeader from "./header";
+import StudentViewCommonHeader from "./header";
 
 function StudentViewCommonLayout() {
-    //   const location = useLocation();
-    return (
-        <div>
-            {/* {!location.pathname.includes("course-progress") ? (
+  const location = useLocation();
+  return (
+    <div>
+      {!location.pathname.includes("course-progress") ? (
         <StudentViewCommonHeader />
-      ) : null} */}
-            common content
+      ) : null}
 
-            <Outlet />
-        </div>
-    );
+      <Outlet />
+    </div>
+  );
 }
 
 export default StudentViewCommonLayout;
