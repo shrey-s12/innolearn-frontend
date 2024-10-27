@@ -193,7 +193,7 @@ function StudentViewCoursesPage() {
             {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
                 <Card
-                  onClick={() => navigate(`/course/details/${courseItem?._id}`)}
+                  onClick={() => handleCourseNavigate(courseItem?._id)}
                   className="cursor-pointer"
                   key={courseItem?._id}
                 >
@@ -216,8 +216,8 @@ function StudentViewCoursesPage() {
                       </p>
                       <p className="text-[16px] text-gray-600 mt-3 mb-2">
                         {`${courseItem?.curriculum?.length} ${courseItem?.curriculum?.length <= 1
-                            ? "Lecture"
-                            : "Lectures"
+                          ? "Lecture"
+                          : "Lectures"
                           } - ${courseItem?.level.toUpperCase()} Level`}
                       </p>
                       <p className="font-bold text-lg">
