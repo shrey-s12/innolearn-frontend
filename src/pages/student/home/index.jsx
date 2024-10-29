@@ -40,7 +40,7 @@ function StudentHomePage() {
     );
 
     if (response?.success) {
-      if (response?.data) {
+      if (response?.data && !response?.isDetails) {
         navigate(`/course-progress/${getCurrentCourseId}`);
       } else {
         navigate(`/course/details/${getCurrentCourseId}`);
@@ -91,6 +91,7 @@ function StudentHomePage() {
           {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
             studentViewCoursesList.map((courseItem) => (
               <div
+                key={courseItem?._id}
                 onClick={() => handleCourseNavigate(courseItem?._id)}
                 className="border rounded-lg overflow-hidden shadow cursor-pointer"
               >

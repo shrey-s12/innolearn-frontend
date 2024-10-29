@@ -94,7 +94,7 @@ function StudentViewCoursesPage() {
     );
 
     if (response?.success) {
-      if (response?.data) {
+      if (response?.data && !response?.isDetails) {
         navigate(`/course-progress/${getCurrentCourseId}`);
       } else {
         navigate(`/course/details/${getCurrentCourseId}`);

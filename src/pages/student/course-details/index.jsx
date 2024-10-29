@@ -13,7 +13,6 @@ import VideoPlayer from "@/components/video-player";
 import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
 import {
-    checkCoursePurchaseInfoService,
     createPaymentService,
     fetchStudentViewCourseDetailsService,
 } from "@/services";
@@ -192,6 +191,7 @@ function StudentViewCourseDetailsPage() {
                             {studentViewCourseDetails?.curriculum?.map(
                                 (curriculumItem, index) => (
                                     <li
+                                        key={index}
                                         className={`${curriculumItem?.freePreview
                                             ? "cursor-pointer"
                                             : "cursor-not-allowed"
@@ -220,6 +220,7 @@ function StudentViewCourseDetailsPage() {
                             <div className="aspect-video mb-4 rounded-lg flex items-center justify-center">
                                 <VideoPlayer
                                     url={
+                                        
                                         getIndexOfFreePreviewUrl !== -1
                                             ? studentViewCourseDetails?.curriculum[
                                                 getIndexOfFreePreviewUrl
