@@ -184,3 +184,39 @@ export const filterOptions = {
   level: courseLevelOptions,
   primaryLanguage: languageOptions,
 };
+
+// Admin View
+export const createInstructorFormControls = [
+  { name: "fullName", componentType: "input", placeholder: "Full Name", type: "text", label: "Full Name" },
+  { name: "email", componentType: "input", placeholder: "Email Address", type: "email", label: "Email Address" },
+  { name: "phone", componentType: "input", placeholder: "Phone Number", type: "text", label: "Phone Number" },
+  { name: "address", componentType: "textarea", placeholder: "Address", label: "Address" },
+  { name: "qualification", componentType: "input", placeholder: "Qualification", type: "text", label: "Qualification" },
+  { name: "experience", componentType: "textarea", placeholder: "Experience", label: "Experience" },
+  {
+    name: "specialization",
+    componentType: "multi-select",
+    label: "Specialization",
+    placeholder: "Select Specializations",
+    options: courseCategories,
+  },
+  { name: "username", componentType: "input", placeholder: "Username", type: "text", label: "Username" },
+  { name: "password", componentType: "input", placeholder: "Password", type: "password", label: "Password" },
+  { name: "linkedinProfile", componentType: "input", placeholder: "LinkedIn Profile URL", type: "url", label: "LinkedIn Profile" },
+  { name: "bio", componentType: "textarea", placeholder: "Brief Bio", label: "Bio" },
+];
+
+export const initialCreateInstructorFormData = {
+  fullName: "",
+  email: "",
+  phone: "",
+  address: "",
+  qualification: "",
+  experience: "",
+  specialization: [],
+  username: "",
+  password: "",
+  linkedinProfile: "",
+  bio: "",
+  image: "",
+};

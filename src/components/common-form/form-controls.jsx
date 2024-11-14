@@ -74,7 +74,32 @@ function FormControls({ formControls = [], formData, setFormData }) {
           />
         );
         break;
-
+      case "multi-select":
+        element = (
+          <Select
+            multiple // Enable multiple selection
+            onValueChange={(value) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: value,
+              })
+            }
+            value={currentControlItemValue}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={getControlItem.label} />
+            </SelectTrigger>
+            <SelectContent>
+              {getControlItem.options &&
+                getControlItem.options.map((optionItem) => (
+                  <SelectItem key={optionItem.id} value={optionItem.id}>
+                    {optionItem.label}
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+        );
+        break;
       default:
         element = (
           <Input

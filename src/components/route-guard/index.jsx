@@ -12,7 +12,16 @@ function RouteGuard({ authenticated, user, element }) {
 
   if (
     authenticated &&
-    user?.role !== "instructor" &&
+    user?.role === "admin" &&
+    (location.pathname.includes("instructor") ||
+      location.pathname.includes("/auth"))
+  ) {
+    return <Navigate to="/admin" />;
+  }
+
+  if (
+    authenticated &&
+    user?.role === "user" &&
     (location.pathname.includes("instructor") ||
       location.pathname.includes("/auth"))
   ) {

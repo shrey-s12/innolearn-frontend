@@ -9,13 +9,9 @@ import {
 } from "@/components/ui/table";
 import { DollarSign, Users } from "lucide-react";
 
-function InstructorDashboard({ listOfCourses, instructorId }) {
-  const instructorCourses = listOfCourses?.filter(
-    (course) => course?.instructorId === instructorId._id
-  );
-
+function AdminDashboard({ listOfCourses }) {
   function calculateTotalStudentsAndProfit() {
-    const { totalStudents, totalProfit, studentList } = instructorCourses.reduce(
+    const { totalStudents, totalProfit, studentList } = listOfCourses.reduce(
       (acc, course) => {
         const studentCount = course.students.length;
         acc.totalStudents += studentCount;
@@ -24,6 +20,7 @@ function InstructorDashboard({ listOfCourses, instructorId }) {
         course.students.forEach((student) => {
           acc.studentList.push({
             courseTitle: course.title,
+            instructorName: course.instructorName,
             studentName: student.studentName,
             studentEmail: student.studentEmail,
           });
@@ -87,6 +84,7 @@ function InstructorDashboard({ listOfCourses, instructorId }) {
               <TableHeader>
                 <TableRow>
                   <TableHead>Course Name</TableHead>
+                  <TableHead>Instructor Name</TableHead>
                   <TableHead>Student Name</TableHead>
                   <TableHead>Student Email</TableHead>
                 </TableRow>
@@ -98,13 +96,14 @@ function InstructorDashboard({ listOfCourses, instructorId }) {
                       <TableCell className="font-medium">
                         {studentItem.courseTitle}
                       </TableCell>
+                      <TableCell>{studentItem.instructorName}</TableCell>
                       <TableCell>{studentItem.studentName}</TableCell>
                       <TableCell>{studentItem.studentEmail}</TableCell>
                     </TableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan="3" className="text-center">
+                    <TableCell colSpan="4" className="text-center">
                       No student available
                     </TableCell>
                   </TableRow>
@@ -118,4 +117,4 @@ function InstructorDashboard({ listOfCourses, instructorId }) {
   );
 }
 
-export default InstructorDashboard;
+export default AdminDashboard;
