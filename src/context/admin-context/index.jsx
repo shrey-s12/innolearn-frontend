@@ -8,6 +8,11 @@ export default function AdminProvider({ children }) {
     const [createInstructorFormData, setCreateInstructorFormData] = useState(
         initialCreateInstructorFormData
     );
+
+    const [mediaUploadProgress, setMediaUploadProgress] = useState(false);
+    const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] =
+        useState(0);
+
     async function handleCreateInstructor(event) {
         event.preventDefault();
         const data = await createInstructorService(createInstructorFormData);
@@ -19,6 +24,10 @@ export default function AdminProvider({ children }) {
                 createInstructorFormData,
                 setCreateInstructorFormData,
                 handleCreateInstructor,
+                mediaUploadProgress,
+                setMediaUploadProgress,
+                mediaUploadProgressPercentage,
+                setMediaUploadProgressPercentage,
             }}
         >
             {children}
