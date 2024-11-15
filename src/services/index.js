@@ -164,3 +164,13 @@ export async function resetCourseProgressService(userId, courseId) {
 
   return data;
 }
+
+export async function createInstructorService(formData) {
+  console.log("Create Instructor Service");
+  const { data } = await axiosInstance.post("/admin/instructors/create-instructor", {
+    ...formData,
+    role: "intructor",
+  });
+
+  return data;
+}

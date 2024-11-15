@@ -76,28 +76,44 @@ function FormControls({ formControls = [], formData, setFormData }) {
         break;
       case "multi-select":
         element = (
-          <Select
-            multiple // Enable multiple selection
-            onValueChange={(value) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: value,
-              })
-            }
-            value={currentControlItemValue}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControlItem.label} />
-            </SelectTrigger>
-            <SelectContent>
-              {getControlItem.options &&
-                getControlItem.options.map((optionItem) => (
-                  <SelectItem key={optionItem.id} value={optionItem.id}>
+          <div className="flex flex-col gap-3">
+            {getControlItem.options &&
+              getControlItem.options.map((optionItem) => (
+                <div
+                  key={optionItem.id}
+                  className="flex items-center gap-3 p-2 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    id={`${getControlItem.name}-${optionItem.id}`}
+                    name={getControlItem.name}
+                    value={optionItem.id}
+                    checked={currentControlItemValue.includes(optionItem.id)}
+                    onChange={(e) => {
+                      const selectedOptions = [...currentControlItemValue];
+                      if (e.target.checked) {
+                        selectedOptions.push(optionItem.id);
+                      } else {
+                        const index = selectedOptions.indexOf(optionItem.id);
+                        if (index > -1) selectedOptions.splice(index, 1);
+                      }
+
+                      setFormData({
+                        ...formData,
+                        [getControlItem.name]: selectedOptions,
+                      });
+                    }}
+                    className="w-5 h-5 text-blue-600 border-gray-300"
+                  />
+                  <Label
+                    htmlFor={`${getControlItem.name}-${optionItem.id}`}
+                    className="text-gray-800 cursor-pointer"
+                  >
                     {optionItem.label}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
+                  </Label>
+                </div>
+              ))}
+          </div>
         );
         break;
       default:
