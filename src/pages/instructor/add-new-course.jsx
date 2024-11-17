@@ -64,14 +64,13 @@ function AddNewCoursePage() {
         hasFreePreview = true; //found at least one free preview
       }
     }
-
     return hasFreePreview;
   }
 
   async function handleCreateCourse() {
     const courseFinalFormData = {
       instructorId: auth?.user?._id,
-      instructorName: auth?.user?.userName,
+      instructorName: auth?.user?.instructorName,
       date: new Date(),
       ...courseLandingFormData,
       students: [],

@@ -19,6 +19,8 @@ export default function InstructorProvider({ children }) {
   const [instructorCoursesList, setInstructorCoursesList] = useState([]);
   const [currentEditedCourseId, setCurrentEditedCourseId] = useState(null);
 
+  const [instructorsList, setInstructorsList] = useState([]);
+
   return (
     <InstructorContext.Provider
       value={{
@@ -34,6 +36,8 @@ export default function InstructorProvider({ children }) {
         setInstructorCoursesList,
         currentEditedCourseId,
         setCurrentEditedCourseId,
+        instructorsList,
+        setInstructorsList,
       }}
     >
       {children}

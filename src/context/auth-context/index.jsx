@@ -8,6 +8,7 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
   const [signInFormData, setSignInFormData] = useState(initialSignInFormData);
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
+
   const [auth, setAuth] = useState({
     authenticate: false,
     user: null,
@@ -18,31 +19,47 @@ export default function AuthProvider({ children }) {
     event.preventDefault();
     const data = await registerService(signUpFormData);
   }
-
   async function handleLoginUser(event) {
     event.preventDefault();
+  
+    // Await the login service call
     const data = await loginService(signInFormData);
-
+    console.log("hello");
+  
+    // Check if the login was successful
     if (data.success) {
+      console.log("hello");
+  
+      // Store the access token in session storage
       sessionStorage.setItem(
         "accessToken",
         JSON.stringify(data.data.accessToken)
       );
+  
+      // Determine the user from the response
+      const user = data.data.user || data.data.instructor;
+  
+      // Update authentication state
       setAuth({
         authenticate: true,
-        user: data.data.user,
+        user: user,
       });
     } else {
+      // If login failed, reset authentication state
       setAuth({
         authenticate: false,
         user: null,
       });
     }
+  
+    // Log the authentication state for debugging
+    console.log(auth, "auth");
   }
+  
 
   //check auth user
-
   async function checkAuthUser() {
+
     try {
       const data = await checkAuthService();
       if (data.success) {
@@ -68,6 +85,7 @@ export default function AuthProvider({ children }) {
         setLoading(false);
       }
     }
+
   }
 
   function resetCredentials() {

@@ -5,15 +5,16 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import { fetchInstructorCourseListService } from "@/services";
-import { BarChart, Book, LogOut } from "lucide-react";
+import { BarChart, Book, LogOut, Settings } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
+import InstructorDetailsPage from "./instructorDetailPage";
 
-function InstructorDashboardpage( { user } ) {
+function InstructorDashboardpage({ user }) {
   const [activeTab, setActiveTab] = useState("dashboard");
   const { resetCredentials } = useContext(AuthContext);
   const { instructorCoursesList, setInstructorCoursesList } =
     useContext(InstructorContext);
-  
+
   console.log(user, "user");
 
   async function fetchAllCourses() {
@@ -37,6 +38,12 @@ function InstructorDashboardpage( { user } ) {
       label: "Courses",
       value: "courses",
       component: <InstructorCourses listOfCourses={instructorCoursesList} instructorId={user} />,
+    },
+    {
+      icon: Settings,
+      label: "Profile Settings",
+      value: "profile-settings",
+      component: <InstructorDetailsPage instructorId={user} />,
     },
     {
       icon: LogOut,
@@ -80,8 +87,8 @@ function InstructorDashboardpage( { user } ) {
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-            <h2 className="text-3xl font-bold mb-8">Welcome, <span className="text-violet-700">{user?.userName}</span></h2>
+            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+            <h2 className="text-3xl font-bold mb-8">Welcome, <span className="text-violet-700">{user?.instructorName}</span></h2>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             {menuItems.map((menuItem) => (

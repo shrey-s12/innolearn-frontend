@@ -6,6 +6,7 @@ function RouteGuard({ authenticated, user, element }) {
 
   console.log(authenticated, user, "useruser");
 
+
   if (!authenticated && !location.pathname.includes("/auth")) {
     return <Navigate to="/auth" />;
   }
@@ -35,6 +36,7 @@ function RouteGuard({ authenticated, user, element }) {
   ) {
     return <Navigate to="/instructor" />;
   }
+
 
   return <Fragment>{element}</Fragment>;
 }

@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/auth-context";
 import InstructorDashboardpage from "./pages/instructor";
 import AdminDashboardpage from "./pages/admin";
+import InstructorDetailsPage from "./pages/instructor/instructorDetailPage";
 import StudentViewCommonLayout from "./components/student-view/common-layout";
 import StudentHomePage from "./pages/student/home";
 import NotFoundPage from "./pages/not-found";
@@ -50,6 +51,11 @@ function App() {
           />
         }
       />
+
+      <Route
+        path="/admin/instructors/get-instructor/details/:id" element={<InstructorDetailsPage />}
+      />
+
       <Route
         path="/instructor/create-new-course"
         element={

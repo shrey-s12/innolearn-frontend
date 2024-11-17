@@ -69,7 +69,7 @@ function StudentViewCourseProgressPage() {
 
           setCurrentLecture(
             response?.data?.courseDetails?.curriculum[
-              lastIndexOfViewedAsTrue + 1
+            lastIndexOfViewedAsTrue + 1
             ]
           );
         }
@@ -147,9 +147,8 @@ function StudentViewCourseProgressPage() {
       </div>
       <div className="flex flex-1 overflow-hidden">
         <div
-          className={`flex-1 ${
-            isSideBarOpen ? "mr-[400px]" : ""
-          } transition-all duration-300`}
+          className={`flex-1 ${isSideBarOpen ? "mr-[400px]" : ""
+            } transition-all duration-300`}
         >
           <VideoPlayer
             width="100%"
@@ -163,9 +162,8 @@ function StudentViewCourseProgressPage() {
           </div>
         </div>
         <div
-          className={`fixed top-[64px] right-0 bottom-0 w-[400px] bg-[#1c1d1f] border-l border-gray-700 transition-all duration-300 ${
-            isSideBarOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`fixed top-[64px] right-0 bottom-0 w-[400px] bg-[#1c1d1f] border-l border-gray-700 transition-all duration-300 ${isSideBarOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           <Tabs defaultValue="content" className="h-full flex flex-col">
             <TabsList className="grid bg-[#1c1d1f] w-full grid-cols-2 p-0 h-14">

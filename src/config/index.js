@@ -220,3 +220,13 @@ export const initialCreateInstructorFormData = {
   instructorBio: "",
   instructorProfilePicture: "",
 };
+
+export const instructorSingInFormControls = [
+  { name: "instructorEmail", componentType: "input", placeholder: "Email Address", type: "email", label: "Email Address" },
+  { name: "instructorPassword", componentType: "input", placeholder: "Password", type: "password", label: "Password" },
+];
+
+export const initialInstructorSignInFormData = {
+  instructorEmail: "",
+  instructorPassword: "",
+};

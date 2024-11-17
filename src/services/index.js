@@ -169,8 +169,31 @@ export async function createInstructorService(formData) {
   console.log("Create Instructor Service");
   const { data } = await axiosInstance.post("/admin/instructors/create-instructor", {
     ...formData,
-    role: "intructor",
+    role: "instructor",
   });
+
+  return data;
+}
+
+export async function fetchAllInstructorsService() {
+  const { data } = await axiosInstance.get("/admin/instructors/get-instructors");
+
+  return data;
+}
+
+export async function fetchInstructorDetailsService(id) {
+  const { data } = await axiosInstance.get(
+    `/admin/instructors/get-instructor/details/${id}`
+  );
+
+  return data;
+}
+
+export async function updateInstructorService(id, formData) {
+  const { data } = await axiosInstance.put(
+    `/admin/instructors/update-instructor/${id}`,
+    formData
+  );
 
   return data;
 }

@@ -1,7 +1,7 @@
 import AdminCourses from "@/components/admin-view/courses";
 import AdminDashboard from "@/components/admin-view/dashboard";
-import AdminTotalStudents from "@/components/admin-view/total-students";
-import AdminTotalInstructors from "@/components/admin-view/total-instructors";
+import AdminAllStudents from "@/components/admin-view/all-students";
+import AdminAllInstructors from "@/components/admin-view/all-instructors";
 import AdminCreateInstructors from "@/components/admin-view/create-instructor";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
@@ -43,19 +43,19 @@ function AdminDashboardpage({ user }) {
       icon: Users,
       label: "Students",
       value: "students",
-      component: <AdminTotalStudents listOfCourses={instructorCoursesList} />,
+      component: <AdminAllStudents />,
     },
     {
       icon: Users,
       label: "Instructors",
       value: "instructors",
-      component: <AdminTotalInstructors listOfCourses={instructorCoursesList} />,
+      component: <AdminAllInstructors />,
     },
     {
       icon: Users,
       label: "Create Instructor",
       value: "create-instructor",
-      component: <AdminCreateInstructors listOfCourses={instructorCoursesList} />,
+      component: <AdminCreateInstructors />,
     },
     {
       icon: LogOut,
