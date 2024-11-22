@@ -3,16 +3,13 @@ import { fetchAllInstructorsService } from "@/services";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function AllInstructors() {
-
   const { instructorsList, setInstructorsList } = useContext(InstructorContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchAllInstructors();
-  }
-    , []);
+  }, []);
 
   async function fetchAllInstructors() {
     const response = await fetchAllInstructorsService();
@@ -27,7 +24,11 @@ function AllInstructors() {
           instructorsList.map((instructorItem) => (
             <div
               key={instructorItem?._id}
-              onClick={() => navigate(`/admin/instructors/get-instructor/details/${instructorItem?._id}`)}
+              onClick={() =>
+                navigate(
+                  `/admin/instructors/get-instructor/details/${instructorItem?._id}`
+                )
+              }
               className="border rounded-lg overflow-hidden shadow cursor-pointer"
             >
               <img
@@ -37,7 +38,9 @@ function AllInstructors() {
                 className="w-full h-60 object-cover"
               />
               <div className="p-4">
-                <h3 className="font-bold mb-2">{instructorItem?.instructorName}</h3>
+                <h3 className="font-bold mb-2">
+                  {instructorItem?.instructorName}
+                </h3>
                 <p className="text-sm text-gray-700 mb-2">
                   {instructorItem?.instructorEmail}
                 </p>

@@ -15,6 +15,7 @@ import StudentViewCourseDetailsPage from "./pages/student/course-details";
 import PaypalPaymentReturnPage from "./pages/student/payment-return";
 import StudentCoursesPage from "./pages/student/student-courses";
 import StudentViewCourseProgressPage from "./pages/student/course-progress";
+import StudentDetailPage from "./pages/student/student-detail-page";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -76,6 +77,8 @@ function App() {
           />
         }
       />
+
+      <Route path="/admin/students/get-student/details/:id" element={<StudentDetailPage />} />
       <Route
         path="/"
         element={

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Added useNavigate for navigation
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -31,7 +31,10 @@ function InstructorDetailsPage({ instructorId }) {
 
     const handleUpdate = async () => {
         try {
-            const updatedData = await updateInstructorService(id || instructorId._id, formData);
+            const updatedData = await updateInstructorService(
+                id || instructorId._id,
+                formData
+            );
             setInstructor(updatedData.data); // Update local state
             setShowModal(false); // Close the modal
         } catch (error) {

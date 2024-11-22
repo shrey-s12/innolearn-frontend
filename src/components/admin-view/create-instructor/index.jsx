@@ -77,14 +77,14 @@ function CreateInstructor() {
                         Create Instructor
                     </Button>
                 </CardHeader>
-                    <div className="p-4 pt-0">
-                        {mediaUploadProgress ? (
-                            <MediaProgressbar
-                                isMediaUploading={mediaUploadProgress}
-                                progress={mediaUploadProgressPercentage}
-                            />
-                        ) : null}
-                    </div>
+                <div className="p-4 pt-0">
+                    {mediaUploadProgress ? (
+                        <MediaProgressbar
+                            isMediaUploading={mediaUploadProgress}
+                            progress={mediaUploadProgressPercentage}
+                        />
+                    ) : null}
+                </div>
 
                 <CardContent>
                     {createInstructorFormData?.instructorProfilePicture ? (

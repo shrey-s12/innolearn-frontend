@@ -14,7 +14,7 @@ function StudentViewCommonHeader() {
     }
 
     return (
-        <header className="flex items-center justify-between p-4 border-b relative">
+        <header className="flex items-center justify-between p-4 border-b bg-white sticky top-0 left-0 w-full z-50">
             <div className="flex items-center space-x-4">
                 <Link to="/home" className="flex items-center hover:text-black">
                     <GraduationCap className="h-8 w-8 mr-4 " />
@@ -51,6 +51,7 @@ function StudentViewCommonHeader() {
                 </div>
             </div>
         </header>
+
     );
 }
 

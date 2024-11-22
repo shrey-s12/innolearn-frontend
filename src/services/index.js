@@ -165,18 +165,23 @@ export async function resetCourseProgressService(userId, courseId) {
   return data;
 }
 
+// Instructor Services
 export async function createInstructorService(formData) {
   console.log("Create Instructor Service");
-  const { data } = await axiosInstance.post("/admin/instructors/create-instructor", {
-    ...formData,
-    role: "instructor",
-  });
-
+  const { data } = await axiosInstance.post(
+    "/admin/instructors/create-instructor",
+    {
+      ...formData,
+      role: "instructor",
+    }
+  );
   return data;
 }
 
 export async function fetchAllInstructorsService() {
-  const { data } = await axiosInstance.get("/admin/instructors/get-instructors");
+  const { data } = await axiosInstance.get(
+    "/admin/instructors/get-instructors"
+  );
 
   return data;
 }
@@ -192,6 +197,30 @@ export async function fetchInstructorDetailsService(id) {
 export async function updateInstructorService(id, formData) {
   const { data } = await axiosInstance.put(
     `/admin/instructors/update-instructor/${id}`,
+    formData
+  );
+
+  return data;
+}
+
+// Student Services
+export async function fetchAllStudentsService() {
+  const { data } = await axiosInstance.get("/admin/students/get-students");
+
+  return data;
+}
+
+export async function fetchStudentDetailsService(id) {
+  const { data } = await axiosInstance.get(
+    `/admin/students/get-student/details/${id}`
+  );
+
+  return data;
+}
+
+export async function updateStudentService(id, formData) {
+  const { data } = await axiosInstance.put(
+    `/admin/students/update-student/${id}`,
     formData
   );
 

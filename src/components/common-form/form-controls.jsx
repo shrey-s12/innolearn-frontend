@@ -49,10 +49,10 @@ function FormControls({ formControls = [], formData, setFormData }) {
             <SelectContent>
               {getControlItem.options && getControlItem.options.length > 0
                 ? getControlItem.options.map((optionItem) => (
-                  <SelectItem key={optionItem.id} value={optionItem.id}>
-                    {optionItem.label}
-                  </SelectItem>
-                ))
+                    <SelectItem key={optionItem.id} value={optionItem.id}>
+                      {optionItem.label}
+                    </SelectItem>
+                  ))
                 : null}
             </SelectContent>
           </Select>
@@ -113,6 +113,33 @@ function FormControls({ formControls = [], formData, setFormData }) {
                   </Label>
                 </div>
               ))}
+          </div>
+        );
+        break;
+      case "group":
+        element = (
+          <div className="flex flex-col gap-4">
+            {getControlItem.fields.map((field) => (
+              <div key={field.name}>
+                <Label htmlFor={field.name}>{field.label}</Label>
+                <Input
+                  id={field.name}
+                  name={`${getControlItem.name}.${field.name}`}
+                  placeholder={field.placeholder}
+                  type={field.type}
+                  value={formData[getControlItem.name]?.[field.name] || ""}
+                  onChange={(event) =>
+                    setFormData({
+                      ...formData,
+                      [getControlItem.name]: {
+                        ...formData[getControlItem.name],
+                        [field.name]: event.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+            ))}
           </div>
         );
         break;

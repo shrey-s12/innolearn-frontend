@@ -39,9 +39,19 @@ function AuthPage() {
   function checkIfSignUpFormIsValid() {
     return (
       signUpFormData &&
+      signUpFormData.userFullName !== "" &&
       signUpFormData.userName !== "" &&
       signUpFormData.userEmail !== "" &&
-      signUpFormData.password !== ""
+      signUpFormData.password !== "" &&
+      signUpFormData.confirmPassword !== "" &&
+      signUpFormData.userPhoneNumber !== "" &&
+      signUpFormData.userDateOfBirth !== "" &&
+      signUpFormData.userGender !== "" &&
+      signUpFormData.userInterests.length > 0 &&
+      signUpFormData.userAddress.country !== "" &&
+      signUpFormData.userAddress.state !== "" &&
+      signUpFormData.userAddress.city !== "" &&
+      signUpFormData.userAddress.street !== ""
     );
   }
 
@@ -49,13 +59,15 @@ function AuthPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-14 flex items-center border-b">
+      <header className="px-4 lg:px-6 h-14 flex items-center border-b sticky top-0 left-0 w-full bg-white z-50">
         <Link to={"/"} className="flex items-center justify-center">
           <GraduationCap className="h-8 w-8 mr-4" />
           <span className="font-extrabold text-xl">InnoLearn</span>
         </Link>
       </header>
+
       <div className="flex items-center justify-center min-h-screen bg-background">
+        {/* <iframe height="430" width="350" src="https://bot.dialogflow.com/141f1403-ede2-4948-81dd-d77002ad680e"></iframe> */}
         <Tabs
           value={activeTab}
           defaultValue="signin"
@@ -87,7 +99,7 @@ function AuthPage() {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="signup">
             <Card className="p-6 space-y-4">
               <CardHeader>
@@ -96,7 +108,7 @@ function AuthPage() {
                   Enter your details to get started
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-2 max-h-[300px] overflow-y-auto border rounded pt-4">
                 <CommonForm
                   formControls={signUpFormControls}
                   buttonText={"Sign Up"}
