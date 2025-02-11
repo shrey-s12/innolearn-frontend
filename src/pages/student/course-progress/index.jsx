@@ -155,6 +155,7 @@ function StudentViewCourseProgressPage() {
               videoUrl: currentLecture?.videoUrl,
               englishSubtitleUrl: currentLecture?.englishSubtitleVideoUrl,
               hindiSubtitleUrl: currentLecture?.hindiSubtitleVideoUrl,
+              tamilSubtitleUrl: currentLecture?.tamilSubtitleVideoUrl,
             }}
             onProgressUpdate={setCurrentLecture}
             progressData={currentLecture}

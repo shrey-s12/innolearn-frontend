@@ -36,6 +36,7 @@ function VideoPlayer({
   const getVideoUrl = () => {
     if (subtitle === "hindi") return urls.hindiSubtitleUrl;
     if (subtitle === "english") return urls.englishSubtitleUrl;
+    if (subtitle === "tamil") return urls.tamilSubtitleUrl;
     return urls.videoUrl;
   };
 
@@ -220,6 +221,7 @@ function VideoPlayer({
                 <option value="none">No Subtitles</option>
                 <option value="hindi">Hindi Subtitles</option>
                 <option value="english">English Subtitles</option>
+                <option value="tamil">Tamil Subtitles</option>
               </select>
               <div className="text-white">
                 {formatTime(played * (playerRef?.current?.getDuration() || 0))}/{" "}
