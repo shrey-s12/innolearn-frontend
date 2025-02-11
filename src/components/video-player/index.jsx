@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { MdOutlineClosedCaption } from "react-icons/md";
+import { MdOutlineClosedCaptionDisabled } from "react-icons/md";
 import ReactPlayer from "react-player";
 import { Slider } from "../ui/slider";
 import { Button } from "../ui/button";
@@ -17,6 +19,7 @@ function VideoPlayer({
   width = "100%",
   height = "100%",
   url,
+  englishSubtitleUrl,
   onProgressUpdate,
   progressData,
 }) {
@@ -27,10 +30,15 @@ function VideoPlayer({
   const [seeking, setSeeking] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [showSubtitle, setShowSubtitle] = useState(false);
 
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
   const controlsTimeoutRef = useRef(null);
+
+  function handleSubtitle() {
+    setShowSubtitle(!showSubtitle);
+  }
 
   function handlePlayAndPause() {
     setPlaying(!playing);
@@ -124,6 +132,8 @@ function VideoPlayer({
     }
   }, [played]);
 
+  console.log("url", url);
+
   return (
     <div
       ref={playerContainerRef}
@@ -139,7 +149,7 @@ function VideoPlayer({
         className="absolute top-0 left-0"
         width="100%"
         height="100%"
-        url={url}
+        url={showSubtitle ? englishSubtitleUrl : url}
         playing={playing}
         volume={volume}
         muted={muted}
@@ -209,6 +219,18 @@ function VideoPlayer({
               />
             </div>
             <div className="flex items-center space-x-2">
+              <Button
+                className="text-white bg-transparent hover:text-white hover:bg-gray-700"
+                variant="ghost"
+                size="icon"
+                onClick={handleSubtitle}
+              >
+                {showSubtitle ? (
+                  <MdOutlineClosedCaption className="h-6 w-6" />
+                ) : (
+                  <MdOutlineClosedCaptionDisabled className="h-6 w-6" />
+                )}
+              </Button>
               <div className="text-white">
                 {formatTime(played * (playerRef?.current?.getDuration() || 0))}/{" "}
                 {formatTime(playerRef?.current?.getDuration() || 0)}

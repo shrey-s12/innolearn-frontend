@@ -154,6 +154,7 @@ function StudentViewCourseProgressPage() {
             width="100%"
             height="500px"
             url={currentLecture?.videoUrl}
+            englishSubtitleUrl={currentLecture?.englishSubtitleVideoUrl}
             onProgressUpdate={setCurrentLecture}
             progressData={currentLecture}
           />
