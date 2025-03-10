@@ -28,6 +28,8 @@ function VideoPlayer({
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [subtitle, setSubtitle] = useState("none");
+  const [currentTime, setCurrentTime] = useState(0);
+  const [shouldSeek, setShouldSeek] = useState(false);
 
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
@@ -132,6 +134,22 @@ function VideoPlayer({
     }
   }, [played]);
 
+  function handleSubtitleChange(newSubtitle) {
+    if (playerRef.current) {
+      setCurrentTime(playerRef.current.getCurrentTime()); // Save current time
+      setShouldSeek(true); // Ensure seeking happens after reload
+    }
+    setSubtitle(newSubtitle); // Update subtitle
+  }
+
+  function handleReady() {
+    if (shouldSeek && playerRef.current) {
+      playerRef.current.seekTo(currentTime, "seconds"); // Seek after loading
+      setPlaying(true); // Resume playback
+      setShouldSeek(false); // Reset seek flag
+    }
+  }
+
   return (
     <div
       ref={playerContainerRef}
@@ -152,6 +170,7 @@ function VideoPlayer({
         volume={volume}
         muted={muted}
         onProgress={handleProgress}
+        onReady={handleReady}
       />
       {showControls && (
         <div
@@ -217,7 +236,7 @@ function VideoPlayer({
               />
             </div>
             <div className="flex items-center space-x-2">
-              <select value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className="bg-gray-700 text-white p-2 rounded">
+              <select value={subtitle} onChange={(e) => handleSubtitleChange(e.target.value)} className="bg-gray-700 text-white p-2 rounded">
                 <option value="none">No Subtitles</option>
                 <option value="hindi">Hindi Subtitles</option>
                 <option value="english">English Subtitles</option>
