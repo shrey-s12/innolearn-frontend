@@ -117,8 +117,6 @@ function StudentViewCourseProgressPage() {
     if (showConfetti) setTimeout(() => setShowConfetti(false), 15000);
   }, [showConfetti]);
 
-  console.log(currentLecture, "currentLecture");
-
   return (
     <div className="flex flex-col h-screen bg-[#1c1d1f] text-white">
       {showConfetti && <Confetti />}
@@ -153,7 +151,12 @@ function StudentViewCourseProgressPage() {
           <VideoPlayer
             width="100%"
             height="500px"
-            url={currentLecture?.videoUrl}
+            urls={{
+              videoUrl: currentLecture?.videoUrl,
+              englishSubtitleUrl: currentLecture?.englishSubtitleVideoUrl,
+              hindiSubtitleUrl: currentLecture?.hindiSubtitleVideoUrl,
+              tamilSubtitleUrl: currentLecture?.tamilSubtitleVideoUrl,
+            }}
             onProgressUpdate={setCurrentLecture}
             progressData={currentLecture}
           />

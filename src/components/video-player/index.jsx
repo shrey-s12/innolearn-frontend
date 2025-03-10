@@ -16,7 +16,7 @@ import {
 function VideoPlayer({
   width = "100%",
   height = "100%",
-  url,
+  urls,
   onProgressUpdate,
   progressData,
 }) {
@@ -27,10 +27,20 @@ function VideoPlayer({
   const [seeking, setSeeking] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [subtitle, setSubtitle] = useState("none");
+  const [currentTime, setCurrentTime] = useState(0);
+  const [shouldSeek, setShouldSeek] = useState(false);
 
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
   const controlsTimeoutRef = useRef(null);
+
+  const getVideoUrl = () => {
+    if (subtitle === "hindi") return urls.hindiSubtitleUrl;
+    if (subtitle === "english") return urls.englishSubtitleUrl;
+    if (subtitle === "tamil") return urls.tamilSubtitleUrl;
+    return urls.videoUrl;
+  };
 
   function handlePlayAndPause() {
     setPlaying(!playing);
@@ -124,6 +134,22 @@ function VideoPlayer({
     }
   }, [played]);
 
+  function handleSubtitleChange(newSubtitle) {
+    if (playerRef.current) {
+      setCurrentTime(playerRef.current.getCurrentTime()); // Save current time
+      setShouldSeek(true); // Ensure seeking happens after reload
+    }
+    setSubtitle(newSubtitle); // Update subtitle
+  }
+
+  function handleReady() {
+    if (shouldSeek && playerRef.current) {
+      playerRef.current.seekTo(currentTime, "seconds"); // Seek after loading
+      setPlaying(true); // Resume playback
+      setShouldSeek(false); // Reset seek flag
+    }
+  }
+
   return (
     <div
       ref={playerContainerRef}
@@ -139,17 +165,17 @@ function VideoPlayer({
         className="absolute top-0 left-0"
         width="100%"
         height="100%"
-        url={url}
+        url={getVideoUrl()}
         playing={playing}
         volume={volume}
         muted={muted}
         onProgress={handleProgress}
+        onReady={handleReady}
       />
       {showControls && (
         <div
-          className={`absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-75 p-4 transition-opacity duration-300 ${
-            showControls ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-75 p-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Slider
             value={[played * 100]}
@@ -210,6 +236,12 @@ function VideoPlayer({
               />
             </div>
             <div className="flex items-center space-x-2">
+              <select value={subtitle} onChange={(e) => handleSubtitleChange(e.target.value)} className="bg-gray-700 text-white p-2 rounded">
+                <option value="none">No Subtitles</option>
+                <option value="hindi">Hindi Subtitles</option>
+                <option value="english">English Subtitles</option>
+                <option value="tamil">Tamil Subtitles</option>
+              </select>
               <div className="text-white">
                 {formatTime(played * (playerRef?.current?.getDuration() || 0))}/{" "}
                 {formatTime(playerRef?.current?.getDuration() || 0)}
