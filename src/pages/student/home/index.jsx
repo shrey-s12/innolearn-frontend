@@ -17,7 +17,6 @@ function StudentHomePage() {
   const navigate = useNavigate();
 
   function handleNavigateToCoursesPage(getCurrentId) {
-    console.log(getCurrentId);
     sessionStorage.removeItem("filters");
     const currentFilter = {
       category: [getCurrentId],
@@ -41,7 +40,8 @@ function StudentHomePage() {
 
     if (response?.success) {
       if (response?.data && !response?.isDetails) {
-        navigate(`/course-progress/${getCurrentCourseId}`);
+        // Redirect to Face Recognition first, passing courseId as state
+        navigate("/face-recognition", { state: { courseId: getCurrentCourseId } });
       } else {
         navigate(`/course/details/${getCurrentCourseId}`);
       }

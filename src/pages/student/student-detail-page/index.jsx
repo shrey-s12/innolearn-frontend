@@ -13,7 +13,6 @@ function StudentDetailPage() {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({});
-    console.log(formData.userGender)
 
     const {
         mediaUploadProgress,
@@ -54,7 +53,6 @@ function StudentDetailPage() {
 
     const HandleFileUpload = async (e) => {
         const file = e.target.files[0];
-        console.log(file);
         if (file) {
             const fileData = new FormData();
             fileData.append("file", file);

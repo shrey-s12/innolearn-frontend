@@ -15,8 +15,6 @@ function InstructorDashboardpage({ user }) {
   const { instructorCoursesList, setInstructorCoursesList } =
     useContext(InstructorContext);
 
-  console.log(user, "user");
-
   async function fetchAllCourses() {
     const response = await fetchInstructorCourseListService();
     if (response?.success) setInstructorCoursesList(response?.data);
@@ -57,8 +55,6 @@ function InstructorDashboardpage({ user }) {
     resetCredentials();
     sessionStorage.clear();
   }
-
-  console.log(instructorCoursesList, "instructorCoursesList");
 
   return (
     <div className="flex h-full min-h-screen bg-gray-100">

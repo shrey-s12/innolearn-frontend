@@ -32,8 +32,6 @@ function AddNewCoursePage() {
   const navigate = useNavigate();
   const params = useParams();
 
-  console.log(params);
-
   function isEmpty(value) {
     if (Array.isArray(value)) {
       return value.length === 0;
@@ -92,8 +90,6 @@ function AddNewCoursePage() {
       navigate(-1);
       setCurrentEditedCourseId(null);
     }
-
-    console.log(courseFinalFormData, "courseFinalFormData");
   }
 
   async function fetchCurrentCourseDetails() {
@@ -110,12 +106,9 @@ function AddNewCoursePage() {
         return acc;
       }, {});
 
-      console.log(setCourseFormData, response?.data, "setCourseFormData");
       setCourseLandingFormData(setCourseFormData);
       setCourseCurriculumFormData(response?.data?.curriculum);
     }
-
-    console.log(response, "response");
   }
 
   useEffect(() => {
@@ -125,8 +118,6 @@ function AddNewCoursePage() {
   useEffect(() => {
     if (params?.courseId) setCurrentEditedCourseId(params?.courseId);
   }, [params?.courseId]);
-
-  console.log(params, currentEditedCourseId, "params");
 
   return (
     <div className="container mx-auto p-4">

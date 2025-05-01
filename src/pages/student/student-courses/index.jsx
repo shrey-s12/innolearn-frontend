@@ -18,7 +18,6 @@ function StudentCoursesPage() {
         if (response?.success) {
             setStudentBoughtCoursesList(response?.data);
         }
-        console.log(response);
     }
     useEffect(() => {
         fetchStudentBoughtCourses();
@@ -45,7 +44,7 @@ function StudentCoursesPage() {
                             <CardFooter>
                                 <Button
                                     onClick={() =>
-                                        navigate(`/course-progress/${course?.courseId}`)
+                                        navigate("/face-recognition", { state: { courseId: course?.courseId } })
                                     }
                                     className="flex-1"
                                 >

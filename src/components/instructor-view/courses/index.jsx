@@ -15,7 +15,7 @@ import {
 import { InstructorContext } from "@/context/instructor-context";
 import { Delete, Edit } from "lucide-react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function InstructorCourses({ listOfCourses, instructorId }) {
   const navigate = useNavigate();
@@ -24,9 +24,6 @@ function InstructorCourses({ listOfCourses, instructorId }) {
     setCourseLandingFormData,
     setCourseCurriculumFormData,
   } = useContext(InstructorContext);
-
-  // console.log(listOfCourses, "listOfCourses");
-  // console.log(instructorId, "instructorId");
 
   const instructorCourses = listOfCourses?.filter(
     (course) => course?.instructorId === instructorId._id
@@ -71,6 +68,37 @@ function InstructorCourses({ listOfCourses, instructorId }) {
                       ${course?.students?.length * course?.pricing}
                     </TableCell>
                     <TableCell className="text-right">
+                      <Button
+                        onClick={() => {
+                          navigate(`/instructor/edit-course/${course?._id}`);
+                        }}
+                        variant="ghost"
+                        size="sm"
+                      >
+                        <Edit className="h-6 w-6" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <Delete className="h-6 w-6" />
+                      </Button>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Link class="mr-5"
+                        to="https://live-stream-visheshsaxena169s-projects.vercel.app/"
+                        target="_blank"
+                        variant="ghost"
+                        size="sm"
+
+                      >
+                        Live
+                      </Link>
+
+                      <Link
+                        to={`/instructor/live/${course?._id}`}
+                        variant="ghost"
+                        size="sm"
+                      >
+                        Link Share
+                      </Link>
                       <Button
                         onClick={() => {
                           navigate(`/instructor/edit-course/${course?._id}`);

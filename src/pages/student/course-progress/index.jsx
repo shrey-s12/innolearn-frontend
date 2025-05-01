@@ -19,12 +19,14 @@ import {
   markLectureAsViewedService,
   resetCourseProgressService,
 } from "@/services";
+import axios from "axios";
 import { Check, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import Confetti from "react-confetti";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function StudentViewCourseProgressPage() {
+  const [live, setLive] = useState('');
   const navigate = useNavigate();
   const { auth } = useContext(AuthContext);
   const { studentCurrentCourseProgress, setStudentCurrentCourseProgress } =
@@ -59,7 +61,6 @@ function StudentViewCourseProgressPage() {
         if (response?.data?.progress?.length === 0) {
           setCurrentLecture(response?.data?.courseDetails?.curriculum[0]);
         } else {
-          console.log("logging here");
           const lastIndexOfViewedAsTrue = response?.data?.progress.reduceRight(
             (acc, obj, index) => {
               return acc === -1 && obj.viewed ? index : acc;
@@ -107,6 +108,23 @@ function StudentViewCourseProgressPage() {
 
   useEffect(() => {
     fetchCurrentCourseProgress();
+    async function getAllLive() {
+      try {
+        const response = await axios.get("http://localhost:5000/api/live/get");
+
+        const x = response.data.data.filter((item) => item.courseId === id);
+
+        if (x.length > 0) {
+          setLive(x[0].meetingLink);
+        } else {
+          setLive(""); // Or handle it appropriately
+        }
+      } catch (error) {
+        console.error("Error fetching live data:", error);
+      }
+    }
+
+    getAllLive();
   }, [id]);
 
   useEffect(() => {
@@ -131,9 +149,14 @@ function StudentViewCourseProgressPage() {
             <ChevronLeft className="h-4 w-4 mr-2" />
             Back to My Courses Page
           </Button>
-          <h1 className="text-lg font-bold hidden md:block">
-            {studentCurrentCourseProgress?.courseDetails?.title}
-          </h1>
+          <div className="w-full flex justify-end">
+            <h1 className="text-lg font-bold hidden md:block">
+              {studentCurrentCourseProgress?.courseDetails?.title}
+            </h1>
+            {
+              live ? <Link to={`${live}`} className={"ml-[800px] text-[25px] text-red-500"} >Live</Link> : <Link to={`${live}`} className={"ml-[800px] text-[25px]"} >Live</Link>
+            }
+          </div>
         </div>
         <Button onClick={() => setIsSideBarOpen(!isSideBarOpen)}>
           {isSideBarOpen ? (
@@ -172,13 +195,13 @@ function StudentViewCourseProgressPage() {
             <TabsList className="grid bg-[#1c1d1f] w-full grid-cols-2 p-0 h-14">
               <TabsTrigger
                 value="content"
-                className="text-white rounded-none h-full"
+                className="text-black rounded-none h-full"
               >
                 Course Content
               </TabsTrigger>
               <TabsTrigger
                 value="overview"
-                className="text-white rounded-none h-full"
+                className="text-black rounded-none h-full"
               >
                 Overview
               </TabsTrigger>
