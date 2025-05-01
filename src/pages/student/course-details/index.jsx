@@ -18,7 +18,7 @@ import {
 } from "@/services";
 import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function StudentViewCourseDetailsPage() {
     const {
@@ -36,25 +36,10 @@ function StudentViewCourseDetailsPage() {
         useState(null);
     const [showFreePreviewDialog, setShowFreePreviewDialog] = useState(false);
     const [approvalUrl, setApprovalUrl] = useState("");
-    const navigate = useNavigate();
     const { id } = useParams();
     const location = useLocation();
 
     async function fetchStudentViewCourseDetails() {
-        // const checkCoursePurchaseInfoResponse =
-        //   await checkCoursePurchaseInfoService(
-        //     currentCourseDetailsId,
-        //     auth?.user._id
-        //   );
-
-        // if (
-        //   checkCoursePurchaseInfoResponse?.success &&
-        //   checkCoursePurchaseInfoResponse?.data
-        // ) {
-        //   navigate(`/course-progress/${currentCourseDetailsId}`);
-        //   return;
-        // }
-
         const response = await fetchStudentViewCourseDetailsService(
             currentCourseDetailsId
         );
@@ -69,8 +54,12 @@ function StudentViewCourseDetailsPage() {
     }
 
     function handleSetFreePreview(getCurrentVideoInfo) {
-        console.log(getCurrentVideoInfo);
-        setDisplayCurrentVideoFreePreview(getCurrentVideoInfo?.videoUrl);
+        setDisplayCurrentVideoFreePreview({
+            videoUrl: getCurrentVideoInfo?.videoUrl ?? "",
+            englishSubtitleUrl: getCurrentVideoInfo?.englishSubtitleVideoUrl ?? "",
+            hindiSubtitleUrl: getCurrentVideoInfo?.hindiSubtitleVideoUrl ?? "",
+            tamilSubtitleUrl: getCurrentVideoInfo?.tamilSubtitleVideoUrl ?? "",
+        });
     }
 
     async function handleCreatePayment() {
@@ -136,8 +125,14 @@ function StudentViewCourseDetailsPage() {
             )
             : -1;
 
+    const lecture =
+        getIndexOfFreePreviewUrl !== -1 &&
+            studentViewCourseDetails?.curriculum?.[getIndexOfFreePreviewUrl]
+            ? studentViewCourseDetails.curriculum[getIndexOfFreePreviewUrl]
+            : null;
+
     return (
-        <div className=" mx-auto p-4">
+        <div className="mx-auto p-4">
             <div className="bg-gray-900 text-white p-8 rounded-t-lg">
                 <h1 className="text-3xl font-bold mb-4">
                     {studentViewCourseDetails?.title}
@@ -214,22 +209,27 @@ function StudentViewCourseDetailsPage() {
                         </CardContent>
                     </Card>
                 </main>
-                <aside className="w-full md:w-[500px]">
+                <aside className="w-full md:w-[600px]">
                     <Card className="sticky top-4">
                         <CardContent className="p-6">
                             <div className="aspect-video mb-4 rounded-lg flex items-center justify-center">
-                                <VideoPlayer
-                                    url={
-                                        
-                                        getIndexOfFreePreviewUrl !== -1
-                                            ? studentViewCourseDetails?.curriculum[
-                                                getIndexOfFreePreviewUrl
-                                            ].videoUrl
-                                            : ""
-                                    }
-                                    width="450px"
-                                    height="200px"
-                                />
+                                {lecture ? (
+                                    <VideoPlayer
+                                        urls={{
+                                            videoUrl: lecture?.videoUrl ?? "",
+                                            englishSubtitleUrl: lecture?.englishSubtitleVideoUrl ?? "",
+                                            hindiSubtitleUrl: lecture?.hindiSubtitleVideoUrl ?? "",
+                                            tamilSubtitleUrl: lecture?.tamilSubtitleVideoUrl ?? "",
+                                        }}
+                                        width="600px"
+                                        height="200px"
+                                        onProgressUpdate={setDisplayCurrentVideoFreePreview}
+                                        progressData={lecture}
+                                    />
+                                ) : (
+                                    <div className="text-gray-400">No preview available</div>
+                                )}
+
                             </div>
                             <div className="mb-4">
                                 <span className="text-3xl font-bold">
@@ -250,15 +250,22 @@ function StudentViewCourseDetailsPage() {
                     setDisplayCurrentVideoFreePreview(null);
                 }}
             >
-                <DialogContent className="w-[800px]">
+                <DialogContent className="min-w-[600px]">
                     <DialogHeader>
                         <DialogTitle>Course Preview</DialogTitle>
                     </DialogHeader>
                     <div className="aspect-video rounded-lg flex items-center justify-center">
                         <VideoPlayer
-                            url={displayCurrentVideoFreePreview}
-                            width="450px"
+                            urls={{
+                                videoUrl: displayCurrentVideoFreePreview?.videoUrl ?? "",
+                                englishSubtitleUrl: displayCurrentVideoFreePreview?.englishSubtitleUrl ?? "",
+                                hindiSubtitleUrl: displayCurrentVideoFreePreview?.hindiSubtitleUrl ?? "",
+                                tamilSubtitleUrl: displayCurrentVideoFreePreview?.tamilSubtitleUrl ?? "",
+                            }}
+                            width="550px"
                             height="200px"
+                            onProgressUpdate={setDisplayCurrentVideoFreePreview}
+                            progressData={displayCurrentVideoFreePreview}
                         />
                     </div>
                     <div className="flex flex-col gap-2">

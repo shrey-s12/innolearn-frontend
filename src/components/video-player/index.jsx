@@ -30,6 +30,7 @@ function VideoPlayer({
   const [subtitle, setSubtitle] = useState("none");
   const [currentTime, setCurrentTime] = useState(0);
   const [shouldSeek, setShouldSeek] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
@@ -139,6 +140,7 @@ function VideoPlayer({
       setCurrentTime(playerRef.current.getCurrentTime()); // Save current time
       setShouldSeek(true); // Ensure seeking happens after reload
     }
+    setIsLoading(true); // Show loading state
     setSubtitle(newSubtitle); // Update subtitle
   }
 
@@ -148,6 +150,7 @@ function VideoPlayer({
       setPlaying(true); // Resume playback
       setShouldSeek(false); // Reset seek flag
     }
+    setIsLoading(false); // Hide loading state
   }
 
   return (
@@ -160,6 +163,12 @@ function VideoPlayer({
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setShowControls(false)}
     >
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <ReactPlayer
         ref={playerRef}
         className="absolute top-0 left-0"
