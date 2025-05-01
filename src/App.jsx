@@ -16,12 +16,15 @@ import PaypalPaymentReturnPage from "./pages/student/payment-return";
 import StudentCoursesPage from "./pages/student/student-courses";
 import StudentViewCourseProgressPage from "./pages/student/course-progress";
 import StudentDetailPage from "./pages/student/student-detail-page";
+import LiveStream from "./components/LiveStream"
+import FaceRecognition from "./components/FaceRecognition";
 
 function App() {
   const { auth } = useContext(AuthContext);
 
   return (
     <Routes>
+      <Route path="/face-recognition" element={<FaceRecognition />} />
       <Route
         path="/auth"
         element={
@@ -79,6 +82,14 @@ function App() {
       />
 
       <Route path="/admin/students/get-student/details/:id" element={<StudentDetailPage />} />
+      <Route
+        path="/instructor/live/:id"
+
+
+        element={<LiveStream />}
+
+
+      />
       <Route
         path="/"
         element={

@@ -40,7 +40,7 @@ function VideoPlayer({
     if (subtitle === "hindi") return urls.hindiSubtitleUrl;
     if (subtitle === "english") return urls.englishSubtitleUrl;
     if (subtitle === "tamil") return urls.tamilSubtitleUrl;
-    return urls.videoUrl;
+    return urls?.videoUrl;
   };
 
   function handlePlayAndPause() {
