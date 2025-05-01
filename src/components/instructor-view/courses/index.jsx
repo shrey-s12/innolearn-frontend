@@ -25,9 +25,6 @@ function InstructorCourses({ listOfCourses, instructorId }) {
     setCourseCurriculumFormData,
   } = useContext(InstructorContext);
 
-  // console.log(listOfCourses, "listOfCourses");
-  // console.log(instructorId, "instructorId");
-
   const instructorCourses = listOfCourses?.filter(
     (course) => course?.instructorId === instructorId._id
   );
@@ -86,7 +83,7 @@ function InstructorCourses({ listOfCourses, instructorId }) {
                     </TableCell>
                     <TableCell className="text-right">
                       <Link class="mr-5"
-                        to="https://vedio-nu.vercel.app/"
+                        to="https://live-stream-visheshsaxena169s-projects.vercel.app/"
                         target="_blank"
                         variant="ghost"
                         size="sm"

@@ -61,7 +61,6 @@ function StudentViewCourseProgressPage() {
         if (response?.data?.progress?.length === 0) {
           setCurrentLecture(response?.data?.courseDetails?.curriculum[0]);
         } else {
-          console.log("logging here");
           const lastIndexOfViewedAsTrue = response?.data?.progress.reduceRight(
             (acc, obj, index) => {
               return acc === -1 && obj.viewed ? index : acc;
@@ -112,15 +111,12 @@ function StudentViewCourseProgressPage() {
     async function getAllLive() {
       try {
         const response = await axios.get("http://localhost:5000/api/live/get");
-        console.log(response.data.data);
 
         const x = response.data.data.filter((item) => item.courseId === id);
 
         if (x.length > 0) {
-          console.log(x[0].meetingLink);
           setLive(x[0].meetingLink);
         } else {
-          console.log("No live meetings found for this course.");
           setLive(""); // Or handle it appropriately
         }
       } catch (error) {
@@ -129,7 +125,6 @@ function StudentViewCourseProgressPage() {
     }
 
     getAllLive();
-    console.log(live)
   }, [id]);
 
   useEffect(() => {

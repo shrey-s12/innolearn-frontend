@@ -8,7 +8,6 @@ export default function ChatbotIcon() {
   const { auth } = useContext(AuthContext);
 
   function handleIconClick() {
-    console.log("Is Authenticated:", auth.authenticate); // Check authentication status
     setShowChatbot(!showChatbot);
   }
 

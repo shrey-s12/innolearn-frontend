@@ -143,8 +143,7 @@ function CourseCurriculum() {
         bulkFormData,
         setMediaUploadProgressPercentage
       );
-
-      console.log(response, "bulk");
+      
       if (response?.success) {
         let cpyCourseCurriculumFormdata =
           areAllCourseCurriculumFormDataObjectsEmpty(courseCurriculumFormData)

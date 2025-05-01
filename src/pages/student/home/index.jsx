@@ -17,7 +17,6 @@ function StudentHomePage() {
   const navigate = useNavigate();
 
   function handleNavigateToCoursesPage(getCurrentId) {
-    console.log(getCurrentId);
     sessionStorage.removeItem("filters");
     const currentFilter = {
       category: [getCurrentId],
