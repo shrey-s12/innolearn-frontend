@@ -24,12 +24,9 @@ export default function AuthProvider({ children }) {
   
     // Await the login service call
     const data = await loginService(signInFormData);
-    console.log("hello");
   
     // Check if the login was successful
-    if (data.success) {
-      console.log("hello");
-  
+    if (data.success) {  
       // Store the access token in session storage
       sessionStorage.setItem(
         "accessToken",
@@ -51,9 +48,6 @@ export default function AuthProvider({ children }) {
         user: null,
       });
     }
-  
-    // Log the authentication state for debugging
-    console.log(auth, "auth");
   }
   
 
@@ -98,8 +92,6 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     checkAuthUser();
   }, []);
-
-  console.log(auth, "gf");
 
   return (
     <AuthContext.Provider
