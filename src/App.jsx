@@ -3,7 +3,7 @@ import AuthPage from "./pages/auth";
 import RouteGuard from "./components/route-guard";
 import { useContext } from "react";
 import { AuthContext } from "./context/auth-context";
-import InstructorDashboardpage from "./pages/instructor";
+import InstructorDashboardPage from "./pages/instructor";
 import AdminDashboardpage from "./pages/admin";
 import InstructorDetailsPage from "./pages/instructor/instructorDetailPage";
 import StudentViewCommonLayout from "./components/student-view/common-layout";
@@ -39,7 +39,7 @@ function App() {
         path="/instructor"
         element={
           <RouteGuard
-            element={<InstructorDashboardpage user={auth?.user} />}
+            element={<InstructorDashboardPage user={auth?.user} />}
             authenticated={auth?.authenticate}
             user={auth?.user}
           />

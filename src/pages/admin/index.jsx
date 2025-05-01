@@ -8,14 +8,15 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import { fetchInstructorCourseListService } from "@/services";
-import { BarChart, Book, LogOut, Users } from "lucide-react";
+import { BarChart, Book, LogOut, Users, Sun, Moon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "@/context/theme-context";
 
 function AdminDashboardpage({ user }) {
   const [activeTab, setActiveTab] = useState("dashboard");
   const { resetCredentials } = useContext(AuthContext);
-  const { instructorCoursesList, setInstructorCoursesList } =
-    useContext(InstructorContext);
+  const { instructorCoursesList, setInstructorCoursesList } = useContext(InstructorContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   async function fetchAllCourses() {
     const response = await fetchInstructorCourseListService();
@@ -71,10 +72,10 @@ function AdminDashboardpage({ user }) {
   }
 
   return (
-    <div className="flex h-full min-h-screen bg-gray-100">
-      <aside className="w-64 bg-white shadow-md hidden md:block">
+    <div className="flex h-full min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+      <aside className="w-64 bg-white dark:bg-gray-800 shadow-md hidden md:block">
         <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">Admin View</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Admin View</h2>
           <nav>
             {menuItems.map((menuItem) => (
               <Button
@@ -94,15 +95,31 @@ function AdminDashboardpage({ user }) {
           </nav>
         </div>
       </aside>
+
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-            <h2 className="text-3xl font-bold mb-8">Welcome, <span className="text-sky-700">{user?.userName}</span></h2>
+            <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Dashboard</h1>
+
+            <button
+              onClick={toggleTheme}
+              className="flex items-center space-x-2 p-2 rounded-md bg-gray-200 dark:bg-gray-700 transition-colors"
+            >
+              {theme === "light" ? (
+                <Moon className="text-yellow-500 w-5 h-5" />
+              ) : (
+                <Sun className="text-orange-400 w-5 h-5" />
+              )}
+            </button>
+
+            <h2 className="text-3xl font-bold mb-8">
+              Welcome, <span className="text-sky-700 dark:text-sky-400">{user?.userName}</span>
+            </h2>
           </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             {menuItems.map((menuItem) => (
-              <TabsContent value={menuItem.value}>
+              <TabsContent key={menuItem.value} value={menuItem.value}>
                 {menuItem.component !== null ? menuItem.component : null}
               </TabsContent>
             ))}

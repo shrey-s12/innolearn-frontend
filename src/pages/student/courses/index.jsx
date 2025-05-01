@@ -122,27 +122,23 @@ function StudentViewCoursesPage() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 dark:bg-black dark:text-white">
       <h1 className="text-3xl font-bold mb-4">All Courses</h1>
       <div className="flex flex-col md:flex-row gap-4">
         <aside className="w-full md:w-64 space-y-4">
           <div>
             {Object.keys(filterOptions).map((ketItem) => (
-              <div className="p-4 border-b">
+              <div className="p-4 border-b dark:border-gray-700">
                 <h3 className="font-bold mb-3">{ketItem.toUpperCase()}</h3>
                 <div className="grid gap-2 mt-2">
                   {filterOptions[ketItem].map((option) => (
-                    <Label className="flex font-medium items-center gap-3">
+                    <Label className="flex font-medium items-center gap-3 dark:text-white">
                       <Checkbox
-                        checked={
-                          filters &&
-                          Object.keys(filters).length > 0 &&
-                          filters[ketItem] &&
-                          filters[ketItem].indexOf(option.id) > -1
-                        }
+                        checked={filters?.[ketItem]?.includes(option.id)}
                         onCheckedChange={() =>
                           handleFilterOnChange(ketItem, option)
                         }
+                        className="h-4 w-4 rounded border-gray-300 bg-white text-black dark:border-white dark:bg-white dark:text-black"
                       />
                       {option.label}
                     </Label>
@@ -159,13 +155,13 @@ function StudentViewCoursesPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex items-center gap-2 p-5"
+                  className="flex items-center gap-2 p-5 dark:bg-gray-800 dark:text-white"
                 >
                   <ArrowUpDownIcon className="h-4 w-4" />
                   <span className="text-[16px] font-medium">Sort By</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[180px]">
+              <DropdownMenuContent align="end" className="w-[180px] dark:bg-gray-800 dark:text-white">
                 <DropdownMenuRadioGroup
                   value={sort}
                   onValueChange={(value) => setSort(value)}
@@ -174,6 +170,7 @@ function StudentViewCoursesPage() {
                     <DropdownMenuRadioItem
                       value={sortItem.id}
                       key={sortItem.id}
+                      className="dark:hover:bg-gray-700"
                     >
                       {sortItem.label}
                     </DropdownMenuRadioItem>
@@ -181,42 +178,37 @@ function StudentViewCoursesPage() {
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className="text-sm text-black font-bold">
+            <span className="text-sm font-bold dark:text-gray-300">
               {studentViewCoursesList.length} Results
             </span>
           </div>
           <div className="space-y-4">
-            {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
+            {studentViewCoursesList?.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
                 <Card
                   onClick={() => handleCourseNavigate(courseItem?._id)}
-                  className="cursor-pointer"
+                  className="cursor-pointer dark:bg-gray-800 dark:border-gray-700"
                   key={courseItem?._id}
                 >
                   <CardContent className="flex gap-4 p-4">
                     <div className="w-48 h-32 flex-shrink-0">
                       <img
                         src={courseItem?.image}
-                        className="w-ful h-full object-cover"
+                        className="w-full h-full object-cover rounded"
                       />
                     </div>
                     <div className="flex-1">
-                      <CardTitle className="text-xl mb-2">
+                      <CardTitle className="text-xl mb-2 dark:text-white">
                         {courseItem?.title}
                       </CardTitle>
-                      <p className="text-sm text-gray-600 mb-1">
-                        Created By{" "}
-                        <span className="font-bold">
-                          {courseItem?.instructorName}
-                        </span>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                        Created By <span className="font-bold">{courseItem?.instructorName}</span>
                       </p>
-                      <p className="text-[16px] text-gray-600 mt-3 mb-2">
-                        {`${courseItem?.curriculum?.length} ${courseItem?.curriculum?.length <= 1
-                          ? "Lecture"
-                          : "Lectures"
+                      <p className="text-[16px] text-gray-600 dark:text-gray-400 mt-3 mb-2">
+                        {`${courseItem?.curriculum?.length} ${courseItem?.curriculum?.length <= 1 ? "Lecture" : "Lectures"
                           } - ${courseItem?.level.toUpperCase()} Level`}
                       </p>
-                      <p className="font-bold text-lg">
+                      <p className="font-bold text-lg dark:text-white">
                         ${courseItem?.pricing}
                       </p>
                     </div>
@@ -226,12 +218,13 @@ function StudentViewCoursesPage() {
             ) : loadingState ? (
               <Skeleton />
             ) : (
-              <h1 className="font-extrabold text-4xl">No Courses Found</h1>
+              <h1 className="font-extrabold text-4xl dark:text-white">No Courses Found</h1>
             )}
           </div>
         </main>
       </div>
     </div>
+
   );
 }
 

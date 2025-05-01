@@ -11,166 +11,154 @@ import { Textarea } from "../ui/textarea";
 
 function FormControls({ formControls = [], formData, setFormData }) {
   function renderComponentByType(getControlItem) {
-    let element = null;
-    const currentControlItemValue = formData[getControlItem.name] || "";
+    const currentValue = formData[getControlItem.name] || "";
 
     switch (getControlItem.componentType) {
       case "input":
-        element = (
+        return (
           <Input
             id={getControlItem.name}
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             type={getControlItem.type}
-            value={currentControlItemValue}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
+            value={currentValue}
+            onChange={(e) =>
+              setFormData({ ...formData, [getControlItem.name]: e.target.value })
             }
+            className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
           />
         );
-        break;
+
       case "select":
-        element = (
+        return (
           <Select
+            value={currentValue}
             onValueChange={(value) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: value,
-              })
+              setFormData({ ...formData, [getControlItem.name]: value })
             }
-            value={currentControlItemValue}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white">
               <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
-            <SelectContent>
-              {getControlItem.options && getControlItem.options.length > 0
-                ? getControlItem.options.map((optionItem) => (
-                    <SelectItem key={optionItem.id} value={optionItem.id}>
-                      {optionItem.label}
-                    </SelectItem>
-                  ))
-                : null}
+            <SelectContent className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+              {getControlItem.options?.map((option) => (
+                <SelectItem key={option.id} value={option.id}>
+                  {option.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         );
-        break;
+
       case "textarea":
-        element = (
+        return (
           <Textarea
             id={getControlItem.name}
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
-            value={currentControlItemValue}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
+            value={currentValue}
+            onChange={(e) =>
+              setFormData({ ...formData, [getControlItem.name]: e.target.value })
             }
+            className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
           />
         );
-        break;
+
       case "multi-select":
-        element = (
+        return (
           <div className="flex flex-col gap-3">
-            {getControlItem.options &&
-              getControlItem.options.map((optionItem) => (
+            {getControlItem.options?.map((option) => {
+              const isChecked = currentValue.includes(option.id);
+              return (
                 <div
-                  key={optionItem.id}
-                  className="flex items-center gap-3 p-2 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
+                  key={option.id}
+                  className="flex items-center gap-3 p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   <input
                     type="checkbox"
-                    id={`${getControlItem.name}-${optionItem.id}`}
+                    id={`${getControlItem.name}-${option.id}`}
                     name={getControlItem.name}
-                    value={optionItem.id}
-                    checked={currentControlItemValue.includes(optionItem.id)}
+                    value={option.id}
+                    checked={isChecked}
                     onChange={(e) => {
-                      const selectedOptions = [...currentControlItemValue];
-                      if (e.target.checked) {
-                        selectedOptions.push(optionItem.id);
-                      } else {
-                        const index = selectedOptions.indexOf(optionItem.id);
-                        if (index > -1) selectedOptions.splice(index, 1);
-                      }
+                      const selected = [...currentValue];
+                      if (e.target.checked) selected.push(option.id);
+                      else selected.splice(selected.indexOf(option.id), 1);
 
-                      setFormData({
-                        ...formData,
-                        [getControlItem.name]: selectedOptions,
-                      });
+                      setFormData({ ...formData, [getControlItem.name]: selected });
                     }}
-                    className="w-5 h-5 text-blue-600 border-gray-300"
+                    className="w-5 h-5 text-blue-600 dark:accent-white border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
                   />
                   <Label
-                    htmlFor={`${getControlItem.name}-${optionItem.id}`}
-                    className="text-gray-800 cursor-pointer"
+                    htmlFor={`${getControlItem.name}-${option.id}`}
+                    className="text-gray-800 dark:text-gray-200 cursor-pointer"
                   >
-                    {optionItem.label}
+                    {option.label}
                   </Label>
                 </div>
-              ))}
+              );
+            })}
           </div>
         );
-        break;
+
       case "group":
-        element = (
+        return (
           <div className="flex flex-col gap-4">
             {getControlItem.fields.map((field) => (
               <div key={field.name}>
-                <Label htmlFor={field.name}>{field.label}</Label>
+                <Label htmlFor={field.name} className="text-gray-900 dark:text-gray-200">
+                  {field.label}
+                </Label>
                 <Input
                   id={field.name}
                   name={`${getControlItem.name}.${field.name}`}
                   placeholder={field.placeholder}
                   type={field.type}
                   value={formData[getControlItem.name]?.[field.name] || ""}
-                  onChange={(event) =>
+                  onChange={(e) =>
                     setFormData({
                       ...formData,
                       [getControlItem.name]: {
                         ...formData[getControlItem.name],
-                        [field.name]: event.target.value,
+                        [field.name]: e.target.value,
                       },
                     })
                   }
+                  className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
                 />
               </div>
             ))}
           </div>
         );
-        break;
+
       default:
-        element = (
+        return (
           <Input
             id={getControlItem.name}
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             type={getControlItem.type}
-            value={currentControlItemValue}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
+            value={currentValue}
+            onChange={(e) =>
+              setFormData({ ...formData, [getControlItem.name]: e.target.value })
             }
+            className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
           />
         );
-        break;
     }
-
-    return element;
   }
 
   return (
     <div className="flex flex-col gap-3">
-      {formControls.map((controleItem) => (
-        <div key={controleItem.name}>
-          <Label htmlFor={controleItem.name}>{controleItem.label}</Label>
-          {renderComponentByType(controleItem)}
+      {formControls.map((control) => (
+        <div key={control.name}>
+          <Label
+            htmlFor={control.name}
+            className="text-gray-900 dark:text-gray-200"
+          >
+            {control.label}
+          </Label>
+          {renderComponentByType(control)}
         </div>
       ))}
     </div>

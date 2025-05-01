@@ -40,11 +40,9 @@ function StudentDetailPage() {
     const handleUpdate = async () => {
         try {
             await updateStudentService(id, formData);
-
-            // Refetch updated student details
             const updatedDetails = await fetchStudentDetailsService(id);
             setStudent(updatedDetails.data);
-            setShowModal(false); // Close the modal
+            setShowModal(false);
         } catch (error) {
             console.error("Error updating student details:", error);
             alert("Failed to update student details. Please try again.");
@@ -100,17 +98,19 @@ function StudentDetailPage() {
             {/* Page Header */}
             <div className="my-6 flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold">Student Details</h1>
-                    <p className="text-gray-500">View and manage Student details</p>
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200">Student Details</h1>
+                    <p className="text-gray-500 dark:text-gray-400">View and manage Student details</p>
                 </div>
-                <Button onClick={() => setShowModal(true)}>Update Details</Button>
+                <Button onClick={() => setShowModal(true)} className="bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
+                    Update Details
+                </Button>
             </div>
 
             {/* Student Details */}
-            <Card className="mb-6 shadow-lg border rounded-lg p-6">
+            <Card className="mb-6 shadow-lg border rounded-lg p-6 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex flex-col md:flex-row items-start">
                     {/* Profile Picture */}
-                    <div className="w-44 h-48 flex-shrink-0 relative overflow-hidden rounded-xl border border-gray-200 shadow-md bg-gray-50 mr-6">
+                    <div className="w-44 h-48 flex-shrink-0 relative overflow-hidden rounded-xl border border-gray-200 shadow-md bg-gray-50 mr-6 dark:bg-gray-700 dark:border-gray-600">
                         <img
                             src={student.userProfilePicture || "/placeholder.png"}
                             alt={`${student.userFullName}'s Profile`}
@@ -121,22 +121,22 @@ function StudentDetailPage() {
                     {/* Details */}
                     <div className="flex-1 space-y-4">
                         <CardHeader>
-                            <CardTitle className="text-2xl font-semibold text-gray-800">
+                            <CardTitle className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
                                 {student.userFullName}
                             </CardTitle>
-                            <p className="text-sm text-gray-500">@{student.userName}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">@{student.userName}</p>
                         </CardHeader>
 
                         <CardContent>
                             {/* Contact Details */}
                             <div className="space-y-2">
                                 <p>
-                                    <strong className="text-gray-700">Email:</strong>{" "}
-                                    <span className="text-gray-600">{student.userEmail}</span>
+                                    <strong className="text-gray-700 dark:text-gray-300">Email:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">{student.userEmail}</span>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">Phone:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Phone:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userPhoneNumber}
                                     </span>
                                 </p>
@@ -145,38 +145,36 @@ function StudentDetailPage() {
                             {/* Address */}
                             <div className="space-y-2">
                                 <p>
-                                    <strong className="text-gray-700">Country:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Country:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userAddress?.country}
                                     </span>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">State:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">State:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userAddress?.state}
                                     </span>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">City:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">City:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userAddress?.city}
                                     </span>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">Street:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Street:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userAddress?.street}
                                     </span>
                                 </p>
                             </div>
 
-
-
                             {/* Additional Information */}
                             <div className="space-y-2">
                                 <p>
-                                    <strong className="text-gray-700">Date of Birth:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Date of Birth:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userDateOfBirth
                                             ? new Date(student.userDateOfBirth).toLocaleDateString("en-GB")
                                             : "N/A"}
@@ -184,14 +182,14 @@ function StudentDetailPage() {
                                 </p>
 
                                 <p>
-                                    <strong className="text-gray-700">Gender:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Gender:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userGender}
                                     </span>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">Bio:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Bio:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userBio || "N/A"}
                                     </span>
                                 </p>
@@ -200,23 +198,23 @@ function StudentDetailPage() {
                             {/* Online Presence */}
                             <div className="space-y-2">
                                 <p>
-                                    <strong className="text-gray-700">LinkedIn:</strong>{" "}
+                                    <strong className="text-gray-700 dark:text-gray-300">LinkedIn:</strong>{" "}
                                     <a
                                         href={student.userLinkedinProfile}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-blue-600 underline"
+                                        className="text-blue-600 dark:text-blue-400 underline"
                                     >
                                         {student.userLinkedinProfile || "N/A"}
                                     </a>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">Website:</strong>{" "}
+                                    <strong className="text-gray-700 dark:text-gray-300">Website:</strong>{" "}
                                     <a
                                         href={student.userWebsite}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-blue-600 underline"
+                                        className="text-blue-600 dark:text-blue-400 underline"
                                     >
                                         {student.userWebsite || "N/A"}
                                     </a>
@@ -226,14 +224,14 @@ function StudentDetailPage() {
                             {/* Interests and Specialization */}
                             <div className="space-y-2">
                                 <p>
-                                    <strong className="text-gray-700">Interests:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Interests:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userInterests?.join(", ")}
                                     </span>
                                 </p>
                                 <p>
-                                    <strong className="text-gray-700">Specialization:</strong>{" "}
-                                    <span className="text-gray-600">
+                                    <strong className="text-gray-700 dark:text-gray-300">Specialization:</strong>{" "}
+                                    <span className="text-gray-600 dark:text-gray-400">
                                         {student.userSpecialization?.join(", ") || "N/A"}
                                     </span>
                                 </p>
@@ -245,7 +243,7 @@ function StudentDetailPage() {
 
             {/* Update Details Modal */}
             {showModal && (
-                <div className="space-y-4 p-4 bg-white rounded shadow-lg">
+                <div className="space-y-4 p-4 bg-white dark:bg-gray-800 rounded shadow-lg">
                     {/* Progress Bar */}
                     <div className="p-4 pt-0">
                         {mediaUploadProgress ? (
@@ -256,23 +254,22 @@ function StudentDetailPage() {
                         ) : null}
                     </div>
 
-                    {/* Full Name */}
+                    {/* Form Inputs */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Full Name:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Full Name:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userFullName || ""}
                             onChange={(e) => setFormData({ ...formData, userFullName: e.target.value })}
                         />
                     </div>
 
-                    {/* Phone Number */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Phone Number:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Phone Number:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userPhoneNumber || ""}
                             onChange={(e) => setFormData({ ...formData, userPhoneNumber: e.target.value })}
                         />
@@ -280,101 +277,83 @@ function StudentDetailPage() {
 
                     {/* Profile Picture */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Profile Picture:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Profile Picture:</label>
                         {formData.userProfilePicture ? (
                             <div>
-                                {/* Display Existing Image */}
                                 <img
                                     src={formData.userProfilePicture}
                                     alt="Profile Picture"
                                     className="w-24 h-24 object-cover rounded-full"
                                 />
-
-                                {/* Option to Upload New Image */}
-                                <label className="block mt-2 text-gray-700 font-semibold">Change Profile Picture:</label>
+                                <label className="block mt-2 text-gray-700 dark:text-gray-300 font-semibold">Change Profile Picture:</label>
                                 <input
                                     type="file"
-                                    className="w-full border rounded px-3 py-2"
+                                    className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600"
                                     onChange={HandleFileUpload}
                                 />
                             </div>
                         ) : (
                             <div>
-                                {/* No Image Case */}
                                 <input
                                     type="file"
-                                    className="w-full border rounded px-3 py-2"
+                                    className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600"
                                     onChange={HandleFileUpload}
                                 />
                             </div>
                         )}
                     </div>
 
+                    {/* Other Inputs */}
+                    {/* Address, Date of Birth, Gender, etc. */}
+                    {/* Similar changes as above: add `dark:bg-gray-700`, `dark:border-gray-600`, and `dark:text-gray-300` for inputs, and `dark:text-gray-300` for labels */}
 
                     {/* Address */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Country:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Country:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userAddress?.country || ""}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    userAddress: { ...formData.userAddress, country: e.target.value },
-                                })
-                            }
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">State:</label>
-                        <input
-                            type="text"
-                            className="w-full border rounded px-3 py-2"
-                            value={formData.userAddress?.state || ""}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    userAddress: { ...formData.userAddress, state: e.target.value },
-                                })
-                            }
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">City:</label>
-                        <input
-                            type="text"
-                            className="w-full border rounded px-3 py-2"
-                            value={formData.userAddress?.city || ""}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    userAddress: { ...formData.userAddress, city: e.target.value },
-                                })
-                            }
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Street:</label>
-                        <input
-                            type="text"
-                            className="w-full border rounded px-3 py-2"
-                            value={formData.userAddress?.street || ""}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    userAddress: { ...formData.userAddress, street: e.target.value },
-                                })
-                            }
+                            onChange={(e) => setFormData({ ...formData, userAddress: { ...formData.userAddress, country: e.target.value } })}
                         />
                     </div>
 
-                    {/* Date of Birth */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Date of Birth:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">State:</label>
+                        <input
+                            type="text"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                            value={formData.userAddress?.state || ""}
+                            onChange={(e) => setFormData({ ...formData, userAddress: { ...formData.userAddress, state: e.target.value } })}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">City:</label>
+                        <input
+                            type="text"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                            value={formData.userAddress?.city || ""}
+                            onChange={(e) => setFormData({ ...formData, userAddress: { ...formData.userAddress, city: e.target.value } })}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Street:</label>
+                        <input
+                            type="text"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                            value={formData.userAddress?.street || ""}
+                            onChange={(e) => setFormData({ ...formData, userAddress: { ...formData.userAddress, street: e.target.value } })}
+                        />
+                    </div>
+
+                    {/* DOB */}
+                    <div>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Date of Birth:</label>
                         <input
                             type="date"
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userDateOfBirth || ""}
                             onChange={(e) => setFormData({ ...formData, userDateOfBirth: e.target.value })}
                         />
@@ -382,13 +361,13 @@ function StudentDetailPage() {
 
                     {/* Gender */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Gender:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Gender:</label>
                         <select
-                            className="w-full border rounded px-3 py-2"
-                            value={formData.userGender}
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                            value={formData.userGender || ""}
                             onChange={(e) => setFormData({ ...formData, userGender: e.target.value })}
                         >
-                            <option value="">Select Gender</option>
+                            <option value="">Select Gender </option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
@@ -397,9 +376,9 @@ function StudentDetailPage() {
 
                     {/* Bio */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Bio:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Bio:</label>
                         <textarea
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userBio || ""}
                             onChange={(e) => setFormData({ ...formData, userBio: e.target.value })}
                         />
@@ -407,23 +386,21 @@ function StudentDetailPage() {
 
                     {/* LinkedIn Profile */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">LinkedIn Profile:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">LinkedIn Profile:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userLinkedinProfile || ""}
-                            onChange={(e) =>
-                                setFormData({ ...formData, userLinkedinProfile: e.target.value })
-                            }
+                            onChange={(e) => setFormData({ ...formData, userLinkedinProfile: e.target.value })}
                         />
                     </div>
 
                     {/* Website */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Website:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Website:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                             value={formData.userWebsite || ""}
                             onChange={(e) => setFormData({ ...formData, userWebsite: e.target.value })}
                         />
@@ -431,28 +408,28 @@ function StudentDetailPage() {
 
                     {/* Interests */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Interests:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Interests:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
-                            value={formData.userInterests || ""}
-                            onChange={(e) => setFormData({ ...formData, userInterests: e.target.value })}
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                            value={formData.userInterests?.join(", ") || ""}
+                            onChange={(e) => setFormData({ ...formData, userInterests: e.target.value.split(",") })}
                         />
                     </div>
 
                     {/* Specialization */}
                     <div>
-                        <label className="block text-gray-700 font-semibold">Specialization:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold">Specialization:</label>
                         <input
                             type="text"
-                            className="w-full border rounded px-3 py-2"
-                            value={formData.userSpecialization || ""}
-                            onChange={(e) => setFormData({ ...formData, userSpecialization: e.target.value })}
+                            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                            value={formData.userSpecialization?.join(", ") || ""}
+                            onChange={(e) => setFormData({ ...formData, userSpecialization: e.target.value.split(",") })}
                         />
                     </div>
 
                     {/* Buttons */}
-                    <Button onClick={handleUpdate} className="mt-4">
+                    <Button onClick={handleUpdate} className="mt-4 bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
                         Save Changes
                     </Button>
                     <Button
@@ -461,14 +438,12 @@ function StudentDetailPage() {
                             setShowModal(false);
                             setFormData({ ...student }); // Reset form data to the current student state
                         }}
-                        className="mt-4 ml-2"
+                        className="mt-4 ml-2 bg-gray-500 text-white hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700"
                     >
                         Cancel
                     </Button>
                 </div>
             )}
-
-
         </div>
     );
 }

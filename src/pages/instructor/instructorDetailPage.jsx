@@ -51,8 +51,7 @@ function InstructorDetailsPage({ instructorId }) {
     }
 
     return (
-        <div className="container mx-auto py-6 px-20">
-
+        <div className="container mx-auto py-6 px-20 text-gray-900 dark:text-gray-100">
             {/* Back Button */}
             {id && (
                 <Button onClick={() => navigate(-1)} className="mb-4">
@@ -64,52 +63,58 @@ function InstructorDetailsPage({ instructorId }) {
             <div className="my-6 flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold">Instructor Details</h1>
-                    <p className="text-gray-500">View and manage instructor details</p>
+                    <p className="text-gray-500 dark:text-gray-400">View and manage instructor details</p>
                 </div>
-                <Button onClick={() => setShowModal(true)}>
-                    Update Details
-                </Button>
+                <Button onClick={() => setShowModal(true)}>Update Details</Button>
             </div>
 
             {/* Profile Card */}
-            <Card className="mb-6  shadow-lg border rounded-lg">
+            <Card className="mb-6 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg">
                 <div className="flex flex-col md:flex-row items-center md:items-start">
                     {/* Instructor Info */}
                     <div className="flex-1 md:mr-6">
                         <CardHeader>
                             <div>
-                                <CardTitle className="text-2xl font-semibold text-gray-800">
+                                <CardTitle className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
                                     {instructor.instructorName}
                                 </CardTitle>
-                                <p className="text-sm text-gray-500">@{instructor.instructorUserName}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    @{instructor.instructorUserName}
+                                </p>
                             </div>
                         </CardHeader>
                         <CardContent className="mt-4">
                             <p>
-                                <strong className="text-gray-700">Email:</strong>{" "}
-                                <span className="text-gray-600">{instructor.instructorEmail}</span>
+                                <strong className="text-gray-700 dark:text-gray-300">Email:</strong>{" "}
+                                <span className="text-gray-600 dark:text-gray-400">
+                                    {instructor.instructorEmail}
+                                </span>
                             </p>
                             <p>
-                                <strong className="text-gray-700">Phone:</strong>{" "}
-                                <span className="text-gray-600">{instructor.instructorPhone || "N/A"}</span>
+                                <strong className="text-gray-700 dark:text-gray-300">Phone:</strong>{" "}
+                                <span className="text-gray-600 dark:text-gray-400">
+                                    {instructor.instructorPhone || "N/A"}
+                                </span>
                             </p>
                             <p>
-                                <strong className="text-gray-700">Specialization:</strong>{" "}
-                                <span className="text-gray-600">
-                                    {instructor.instructorSpecialization && instructor.instructorSpecialization.length > 0
+                                <strong className="text-gray-700 dark:text-gray-300">Specialization:</strong>{" "}
+                                <span className="text-gray-600 dark:text-gray-400">
+                                    {instructor.instructorSpecialization?.length > 0
                                         ? instructor.instructorSpecialization.join(", ")
                                         : "N/A"}
                                 </span>
                             </p>
                             <p>
-                                <strong className="text-gray-700">Address:</strong>{" "}
-                                <span className="text-gray-600">{instructor.instructorAddress || "N/A"}</span>
+                                <strong className="text-gray-700 dark:text-gray-300">Address:</strong>{" "}
+                                <span className="text-gray-600 dark:text-gray-400">
+                                    {instructor.instructorAddress || "N/A"}
+                                </span>
                             </p>
                         </CardContent>
                     </div>
 
                     {/* Profile Picture */}
-                    <div className="w-44 h-48 my-auto mr-44 flex-shrink-0 relative overflow-hidden rounded-xl border border-gray-200 shadow-md bg-gray-50">
+                    <div className="w-44 h-48 my-auto mr-44 flex-shrink-0 relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 shadow-md bg-gray-50 dark:bg-gray-700">
                         <img
                             src={instructor.instructorProfilePicture}
                             alt={`${instructor.instructorName} Profile`}
@@ -120,7 +125,7 @@ function InstructorDetailsPage({ instructorId }) {
             </Card>
 
             {/* Additional Details */}
-            <Card className="mb-6 shadow-lg border rounded-lg">
+            <Card className="mb-6 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg">
                 <CardHeader>
                     <CardTitle className="text-xl">Additional Information</CardTitle>
                 </CardHeader>
@@ -155,10 +160,10 @@ function InstructorDetailsPage({ instructorId }) {
                 {/* Courses Tab */}
                 <TabsContent value="courses">
                     <h3 className="text-lg font-semibold mb-4">Courses Taught</h3>
-                    {instructor.courses && instructor.courses.length > 0 ? (
+                    {instructor.courses?.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {instructor.courses.map((course) => (
-                                <Card key={course.id}>
+                                <Card key={course.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                     <CardHeader>
                                         <CardTitle>{course.title}</CardTitle>
                                     </CardHeader>
@@ -177,11 +182,11 @@ function InstructorDetailsPage({ instructorId }) {
                 {/* Reviews Tab */}
                 <TabsContent value="reviews">
                     <h3 className="text-lg font-semibold mb-4">Reviews</h3>
-                    {instructor.reviews && instructor.reviews.length > 0 ? (
+                    {instructor.reviews?.length > 0 ? (
                         <ul>
                             {instructor.reviews.map((review, index) => (
                                 <li key={index} className="mb-4">
-                                    <Card>
+                                    <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                         <CardContent>
                                             <p><strong>{review.reviewerName}:</strong> {review.comment}</p>
                                             <p>Rating: {review.rating}/5</p>
@@ -198,7 +203,7 @@ function InstructorDetailsPage({ instructorId }) {
                 {/* Statistics Tab */}
                 <TabsContent value="statistics">
                     <h3 className="text-lg font-semibold mb-4">Statistics</h3>
-                    <Card>
+                    <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                         <CardContent>
                             <p><strong>Total Courses:</strong> {instructor.totalCourses || 0}</p>
                             <p><strong>Total Students:</strong> {instructor.totalStudents || 0}</p>
@@ -211,68 +216,30 @@ function InstructorDetailsPage({ instructorId }) {
             {/* Modal for Update */}
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg w-1/3">
                         <h2 className="text-xl font-semibold mb-4">Update Instructor Details</h2>
                         <form>
-                            <label className="block mb-2">
-                                Name:
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border rounded mt-1"
-                                    value={formData.instructorName || ""}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, instructorName: e.target.value })
-                                    }
-                                />
-                            </label>
-                            <label className="block mb-2">
-                                Phone:
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border rounded mt-1"
-                                    value={formData.instructorPhone || ""}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, instructorPhone: e.target.value })
-                                    }
-                                />
-                            </label>
-                            <label className="block mb-2">
-                                Address:
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border rounded mt-1"
-                                    value={formData.instructorAddress || ""}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, instructorAddress: e.target.value })
-                                    }
-                                />
-                            </label>
-                            <label className="block mb-2">
-                                Qualification:
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border rounded mt-1"
-                                    value={formData.instructorQualification || ""}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, instructorQualification: e.target.value })
-                                    }
-                                />
-                            </label>
-                            <label className="block mb-2">
-                                Experience:
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border rounded mt-1"
-                                    value={formData.instructorExperience || ""}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, instructorExperience: e.target.value })
-                                    }
-                                />
-                            </label>
+                            {[
+                                { label: "Name", key: "instructorName" },
+                                { label: "Phone", key: "instructorPhone" },
+                                { label: "Address", key: "instructorAddress" },
+                                { label: "Qualification", key: "instructorQualification" },
+                                { label: "Experience", key: "instructorExperience" },
+                            ].map(({ label, key }) => (
+                                <label key={key} className="block mb-2">
+                                    {label}:
+                                    <input
+                                        type="text"
+                                        className="w-full p-2 border rounded mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                                        value={formData[key] || ""}
+                                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                                    />
+                                </label>
+                            ))}
                             <label className="block mb-2">
                                 Bio:
                                 <textarea
-                                    className="w-full p-2 border rounded mt-1"
+                                    className="w-full p-2 border rounded mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                                     value={formData.instructorBio || ""}
                                     onChange={(e) =>
                                         setFormData({ ...formData, instructorBio: e.target.value })
@@ -280,9 +247,7 @@ function InstructorDetailsPage({ instructorId }) {
                                 />
                             </label>
                             <div className="flex justify-end mt-4">
-                                <Button onClick={() => setShowModal(false)} className="mr-2">
-                                    Cancel
-                                </Button>
+                                <Button onClick={() => setShowModal(false)} className="mr-2">Cancel</Button>
                                 <Button onClick={handleUpdate}>Save</Button>
                             </div>
                         </form>
@@ -290,6 +255,7 @@ function InstructorDetailsPage({ instructorId }) {
                 </div>
             )}
         </div>
+
     );
 }
 
