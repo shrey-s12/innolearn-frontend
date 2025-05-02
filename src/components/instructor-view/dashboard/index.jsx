@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DollarSign, Users } from "lucide-react";
+import { IndianRupee, Users } from "lucide-react";
 
 function InstructorDashboard({ listOfCourses, instructorId }) {
   const instructorCourses = listOfCourses?.filter(
@@ -54,7 +54,7 @@ function InstructorDashboard({ listOfCourses, instructorId }) {
       value: totalStudents,
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       label: "Total Revenue",
       value: totalProfit,
     },

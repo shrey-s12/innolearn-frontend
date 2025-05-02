@@ -62,21 +62,20 @@ function CreateInstructor() {
 
     return (
         <form onSubmit={handleCreateInstructor}>
-            <Card>
-
+            <Card className="bg-white dark:bg-gray-900 dark:text-gray-100 border dark:border-gray-700">
                 <CardHeader className="flex flex-row items-center justify-between mb-0 pb-4">
-                    <CardTitle className="text-lg font-bold text-gray-800">Instructor Details</CardTitle>
+                    <CardTitle className="text-lg font-bold text-gray-800 dark:text-gray-100">
+                        Instructor Details
+                    </CardTitle>
                     <Button
-                        className="text-sm font-semibold px-6 py-2 bg-black text-white rounded-md"
-                        // formControls={createInstructorFormControls}
-                        // formData={createInstructorFormData}
-                        // setFormData={setCreateInstructorFormData}
+                        className="text-sm font-semibold px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50"
                         type="submit"
                         disabled={!checkIfCreateInstructorFormIsValid()}
                     >
                         Create Instructor
                     </Button>
                 </CardHeader>
+
                 <div className="p-4 pt-0">
                     {mediaUploadProgress ? (
                         <MediaProgressbar
@@ -88,26 +87,31 @@ function CreateInstructor() {
 
                 <CardContent>
                     {createInstructorFormData?.instructorProfilePicture ? (
-                        <img className="h-52 w-48" src={createInstructorFormData.instructorProfilePicture} />
+                        <img
+                            className="h-52 w-48 rounded border dark:border-gray-700 object-cover"
+                            src={createInstructorFormData.instructorProfilePicture}
+                            alt="Instructor"
+                        />
                     ) : (
                         <div className="flex flex-col gap-3">
-                            <Label>Upload Image</Label>
+                            <Label className="text-gray-700 dark:text-gray-300">Upload Image</Label>
                             <Input
                                 onChange={handleImageUploadChange}
                                 type="file"
                                 accept="image/*"
-                                className="mb-4"
+                                className="mb-4 border dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                             />
                         </div>
                     )}
+
                     <FormControls
                         formControls={createInstructorFormControls}
                         formData={createInstructorFormData}
                         setFormData={setCreateInstructorFormData}
                     />
                 </CardContent>
-            </Card >
-        </form >
+            </Card>
+        </form>
     );
 }
 

@@ -36,7 +36,7 @@ function AdminCourses({ listOfCourses }) {
                     <TableCell>{course?.instructorName}</TableCell>
                     <TableCell>{course?.students?.length}</TableCell>
                     <TableCell>
-                      ${course?.students?.length * course?.pricing}
+                      ₹{course?.students?.length * course?.pricing}
                     </TableCell>
                   </TableRow>
                 ))

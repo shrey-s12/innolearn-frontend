@@ -74,21 +74,23 @@ function FormControls({ formControls = [], formData, setFormData }) {
                   key={option.id}
                   className="flex items-center gap-3 p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
-                  <input
-                    type="checkbox"
-                    id={`${getControlItem.name}-${option.id}`}
-                    name={getControlItem.name}
-                    value={option.id}
-                    checked={isChecked}
-                    onChange={(e) => {
-                      const selected = [...currentValue];
-                      if (e.target.checked) selected.push(option.id);
-                      else selected.splice(selected.indexOf(option.id), 1);
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      id={`${getControlItem.name}-${option.id}`}
+                      name={getControlItem.name}
+                      value={option.id}
+                      checked={isChecked}
+                      onChange={(e) => {
+                        const selected = [...currentValue];
+                        if (e.target.checked) selected.push(option.id);
+                        else selected.splice(selected.indexOf(option.id), 1);
+                        setFormData({ ...formData, [getControlItem.name]: selected });
+                      }}
+                      className="w-5 h-5 shrink-0 border border-gray-400 rounded bg-white text-black dark:border-white dark:bg-white dark:text-black"
+                    />
+                  </div>
 
-                      setFormData({ ...formData, [getControlItem.name]: selected });
-                    }}
-                    className="w-5 h-5 text-blue-600 dark:accent-white border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
-                  />
                   <Label
                     htmlFor={`${getControlItem.name}-${option.id}`}
                     className="text-gray-800 dark:text-gray-200 cursor-pointer"
@@ -96,6 +98,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
                     {option.label}
                   </Label>
                 </div>
+
               );
             })}
           </div>

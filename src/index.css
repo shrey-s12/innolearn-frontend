@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "@tailwindcss/forms";
+
 /* Base CSS variables for light theme */
 @layer base {
   :root {
