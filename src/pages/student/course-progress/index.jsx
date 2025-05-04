@@ -110,7 +110,7 @@ function StudentViewCourseProgressPage() {
     fetchCurrentCourseProgress();
     async function getAllLive() {
       try {
-        const response = await axios.get("http://localhost:5000/api/live/get");
+        const response = await axios.get(`${MAIN_URL}/api/live/get`);
 
         const x = response.data.data.filter((item) => item.courseId === id);
 

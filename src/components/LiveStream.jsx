@@ -1,106 +1,9 @@
-// import React, { useState } from 'react';
-// import { useParams } from 'react-router-dom';
-
-// function LiveStream() {
-//   const [courseId, setCourseId] = useState(""); // State for Course ID
-//   const [meetingLink, setMeetingLink] = useState(""); // State for Meeting Link
-//   const [loading, setLoading] = useState(false); // State for loading
-//   const [message, setMessage] = useState(""); // State for success or error messages
-
-//   // Use useParams at the top level of the component
-//   const { id } = useParams();
-
-//   // Function to handle form submission
-//   const handleSubmit = async (e) => {
-//     e.preventDefault(); // Prevent default form submission
-//     setLoading(true);
-//     setMessage("");
-
-//     try {
-//       const response = await fetch("http://localhost:5000/live", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ courseId:id, meetingLink }), // Send courseId and meetingLink
-//       });
-
-//       const data = await response.json();
-//       if (data.success) {
-//         setMessage("Live Stream Link Shared Successfully!");
-//       } else {
-//         setMessage("Error sharing live stream link.");
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//       setMessage("Error sharing live stream link.");
-//     } finally {
-//       setLoading(false); // Set loading state to false
-//     }
-//   };
-
-//   return (
-//     <div className="live-stream-container">
-//       <h2 className="text-2xl font-bold mb-4">Share Live Stream Link</h2>
-
-//       <form onSubmit={handleSubmit} className="space-y-4">
-//         <div className="form-group">
-//           <label htmlFor="courseId" className="block text-sm font-semibold">Course ID</label>
-//           <input
-//             type="text"
-//             id="courseId"
-//             value={id}
-
-//             placeholder="Enter Course ID"
-//             className="w-full p-2 border border-gray-300 rounded"
-//             required
-//           />
-//         </div>
-
-//         <div className="form-group">
-//           <label htmlFor="meetingLink" className="block text-sm font-semibold">Meeting Link</label>
-//           <input
-//             type="text"
-//             id="meetingLink"
-//             value={meetingLink}
-//             onChange={(e) => setMeetingLink(e.target.value)}
-//             placeholder="Enter Meeting Link"
-//             className="w-full p-2 border border-gray-300 rounded"
-//             required
-//           />
-//         </div>
-
-//         <div className="form-group flex justify-between items-center">
-//           <button
-//             type="submit"
-//             className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
-//             disabled={loading}
-//           >
-//             {loading ? "Submitting..." : "Submit"}
-//           </button>
-//         </div>
-//       </form>
-
-//       {message && (
-//         <div className="mt-4 text-sm">
-//           <p className={message.includes("Successfully") ? "text-green-600" : "text-red-600"}>
-//             {message}
-//           </p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default LiveStream;
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+const MAIN_URL = import.meta.env.VITE_MAIN_API_URL;
+
 function LiveStream() {
-    const [courseId, setCourseId] = useState(""); // State for Course ID
     const [meetingLink, setMeetingLink] = useState(""); // State for Meeting Link
     const [loading, setLoading] = useState(false); // State for loading
     const [message, setMessage] = useState(""); // State for success or error messages
@@ -113,7 +16,7 @@ function LiveStream() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/live/get");
+                const response = await fetch(`${MAIN_URL}/api/live/get`);
                 const data = await response.json();
                 if (data.success) {
                     setLiveData(data.data); // Set the fetched data to state
@@ -138,7 +41,7 @@ function LiveStream() {
         setMessage("");
 
         try {
-            const response = await fetch("http://localhost:5000/api/live/live", {
+            const response = await fetch(`${MAIN_URL}/api/live/live`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -164,7 +67,7 @@ function LiveStream() {
     // Function to delete a live stream by ID
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/live/delete/${id}`, {
+            const response = await fetch(`${MAIN_URL}/api/live/delete/${id}`, {
                 method: "DELETE",
             });
 
