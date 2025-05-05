@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Chatbot.css';
 
+const BASE_URL = import.meta.env.VITE_MAIN_CHATBOT_API_URL;
+
 const Chatbot = ({ onClose }) => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
 
-    const BASE_URL = "http://127.0.0.1:5000";
 
     const sendMessage = async () => {
         const trimmedInput = input.trim();

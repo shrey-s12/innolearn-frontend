@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import Webcam from "react-webcam";
 import { useNavigate, useLocation } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_MAIN_FACE_RECOGNITION_API_URL;
+
 function FaceRecognition() {
     const [recognized, setRecognized] = useState(false);
     const webcamRef = useRef(null);
@@ -25,7 +27,7 @@ function FaceRecognition() {
         formData.append("image", blob, "webcam.jpg");
 
         try {
-            const response = await fetch("http://127.0.0.1:5001/recognize", {
+            const response = await fetch(`${baseURL}/recognize`, {
                 method: "POST",
                 body: formData,
             });
