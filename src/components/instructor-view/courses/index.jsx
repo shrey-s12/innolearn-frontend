@@ -17,6 +17,8 @@ import { Delete, Edit } from "lucide-react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+const liveStreamUrl = import.meta.env.VITE_MAIN_LIVE_CLASS_API_URL;
+
 function InstructorCourses({ listOfCourses, instructorId }) {
   const navigate = useNavigate();
   const {
@@ -83,7 +85,7 @@ function InstructorCourses({ listOfCourses, instructorId }) {
                     </TableCell>
                     <TableCell className="text-right">
                       <Link class="mr-5"
-                        to="https://live-stream-visheshsaxena169s-projects.vercel.app/"
+                        to={`${liveStreamUrl}`}
                         target="_blank"
                         variant="ghost"
                         size="sm"
