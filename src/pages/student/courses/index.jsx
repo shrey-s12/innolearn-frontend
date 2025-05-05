@@ -93,7 +93,7 @@ function StudentViewCoursesPage() {
 
     if (response?.success) {
       if (response?.data && !response?.isDetails) {
-        navigate(`/course-progress/${getCurrentCourseId}`);
+        navigate("/face-recognition", { state: { courseId: getCurrentCourseId } });
       } else {
         navigate(`/course/details/${getCurrentCourseId}`);
       }
@@ -194,7 +194,7 @@ function StudentViewCoursesPage() {
                     <div className="w-48 h-32 flex-shrink-0">
                       <img
                         src={courseItem?.image}
-                        className="w-full h-full object-cover rounded"
+                        className="w-full h-full object-fill rounded"
                       />
                     </div>
                     <div className="flex-1">
