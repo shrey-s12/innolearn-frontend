@@ -14,42 +14,61 @@ export default function AuthProvider({ children }) {
     user: null,
   });
   const [loading, setLoading] = useState(true);
+  const [formLoading, setFormLoading] = useState(false);
 
   async function handleRegisterUser(event) {
     event.preventDefault();
-    const data = await registerService(signUpFormData);
-  }
-  async function handleLoginUser(event) {
-    event.preventDefault();
-  
-    // Await the login service call
-    const data = await loginService(signInFormData);
-  
-    // Check if the login was successful
-    if (data.success) {  
-      // Store the access token in session storage
-      sessionStorage.setItem(
-        "accessToken",
-        JSON.stringify(data.data.accessToken)
-      );
-  
-      // Determine the user from the response
-      const user = data.data.user || data.data.instructor;
-  
-      // Update authentication state
-      setAuth({
-        authenticate: true,
-        user: user,
-      });
-    } else {
-      // If login failed, reset authentication state
-      setAuth({
-        authenticate: false,
-        user: null,
-      });
+    setFormLoading(true);
+
+    try {
+      const data = await registerService(signUpFormData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setFormLoading(false);
     }
   }
-  
+
+  async function handleLoginUser(event) {
+    event.preventDefault();
+
+    setFormLoading(true);
+    try {
+      const data = await loginService(signInFormData);
+
+      // Await the login service call
+
+      // Check if the login was successful
+      if (data.success) {
+        // Store the access token in session storage
+        sessionStorage.setItem(
+          "accessToken",
+          JSON.stringify(data.data.accessToken)
+        );
+
+        // Determine the user from the response
+        const user = data.data.user || data.data.instructor;
+
+        // Update authentication state
+        setAuth({
+          authenticate: true,
+          user: user,
+        });
+      } else {
+        // If login failed, reset authentication state
+        setAuth({
+          authenticate: false,
+          user: null,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      setAuth({ authenticate: false, user: null });
+    } finally {
+      setFormLoading(false);
+    }
+  }
+
 
   //check auth user
   async function checkAuthUser() {
@@ -104,6 +123,7 @@ export default function AuthProvider({ children }) {
         handleLoginUser,
         auth,
         resetCredentials,
+        formLoading,
       }}
     >
       {loading ? <Skeleton /> : children}
