@@ -110,8 +110,6 @@ function StudentViewCourseDetailsPage() {
                 setCoursePurchaseId(null);
     }, [location.pathname]);
 
-    if (loadingState) return <Skeleton />;
-
     if (approvalUrl !== "") {
         window.location.href = approvalUrl;
     }
@@ -287,6 +285,12 @@ function StudentViewCourseDetailsPage() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            {(loadingState) && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
         </div>
     );
 }
