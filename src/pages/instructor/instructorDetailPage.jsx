@@ -2,223 +2,128 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchInstructorDetailsService, updateInstructorService } from "@/services";
 
 function InstructorDetailsPage({ instructorId }) {
-    const { id } = useParams(); // Assuming the page uses a route like /instructors/:id
-    const navigate = useNavigate(); // Hook to navigate back
+    const { id: routeId } = useParams();
+    const navigate = useNavigate();
+    const instructorKey = routeId || instructorId?._id;
+
     const [instructor, setInstructor] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false); // Modal visibility state
-    const [formData, setFormData] = useState({}); // Form data for updates
+    const [updating, setUpdating] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({});
 
-    useEffect(() => {
-        const fetchDetails = async () => {
-            try {
-                const data = await fetchInstructorDetailsService(id || instructorId._id);
-                setInstructor(data.data); // Adjust if API response differs
-                setFormData(data.data); // Initialize form data
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching instructor details:", error);
-                setLoading(false);
-            }
-        };
-
-        fetchDetails();
-    }, [id || instructorId._id]);
-
-    const handleUpdate = async () => {
+    const fetchInstructorDetails = async () => {
+        setLoading(true);
         try {
-            const updatedData = await updateInstructorService(
-                id || instructorId._id,
-                formData
-            );
-            setInstructor(updatedData.data); // Update local state
-            setShowModal(false); // Close the modal
-        } catch (error) {
-            console.error("Error updating instructor details:", error);
+            const res = await fetchInstructorDetailsService(instructorKey);
+            setInstructor(res.data);
+            setFormData(res.data);
+        } catch (err) {
+            console.error("Failed to fetch instructor:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
+    useEffect(() => {
+        if (instructorKey) fetchInstructorDetails();
+    }, [instructorKey]);
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        setUpdating(true);
+        try {
+            await updateInstructorService(instructorKey, formData);
+            const data = await fetchInstructorDetailsService(instructorKey);
+            setInstructor(data.data);           // update state
+            setFormData(data.data);             // sync form
+            setShowModal(false);                // close modal
+        } catch (error) {
+            console.error("Error updating instructor:", error);
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleInputChange = (key, value) => {
+        setFormData(prev => ({ ...prev, [key]: value }));
+    };
+
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+            </div>
+        );
     }
 
     if (!instructor) {
-        return <div>No instructor details found.</div>;
+        return <div className="text-center mt-10 text-gray-500">No instructor details found.</div>;
     }
 
     return (
-        <div className="container mx-auto py-6 px-20 text-gray-900 dark:text-gray-100">
-            {/* Back Button */}
-            {id && (
-                <Button onClick={() => navigate(-1)} className="mb-4">
-                    &larr; Back
-                </Button>
+        <div className="container mx-auto px-4 py-8 text-gray-900 dark:text-gray-100">
+            {routeId && (
+                <Button onClick={() => navigate(-1)} className="mb-4">&larr; Back</Button>
             )}
 
-            {/* Page Header */}
-            <div className="my-6 flex items-center justify-between">
+            <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-3xl font-bold">Instructor Details</h1>
-                    <p className="text-gray-500 dark:text-gray-400">View and manage instructor details</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">View and manage instructor details</p>
                 </div>
-                <Button onClick={() => setShowModal(true)}>Update Details</Button>
+                <Button onClick={() => setShowModal(true)}>Edit Details</Button>
             </div>
 
             {/* Profile Card */}
-            <Card className="mb-6 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg">
-                <div className="flex flex-col md:flex-row items-center md:items-start">
-                    {/* Instructor Info */}
+            <Card className="mb-6">
+                <div className="flex flex-col md:flex-row p-4">
                     <div className="flex-1 md:mr-6">
                         <CardHeader>
-                            <div>
-                                <CardTitle className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-                                    {instructor.instructorName}
-                                </CardTitle>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    @{instructor.instructorUserName}
-                                </p>
-                            </div>
+                            <CardTitle className="text-2xl">{instructor.instructorName}</CardTitle>
+                            <p className="text-sm text-gray-500">@{instructor.instructorUserName}</p>
                         </CardHeader>
-                        <CardContent className="mt-4">
-                            <p>
-                                <strong className="text-gray-700 dark:text-gray-300">Email:</strong>{" "}
-                                <span className="text-gray-600 dark:text-gray-400">
-                                    {instructor.instructorEmail}
-                                </span>
-                            </p>
-                            <p>
-                                <strong className="text-gray-700 dark:text-gray-300">Phone:</strong>{" "}
-                                <span className="text-gray-600 dark:text-gray-400">
-                                    {instructor.instructorPhone || "N/A"}
-                                </span>
-                            </p>
-                            <p>
-                                <strong className="text-gray-700 dark:text-gray-300">Specialization:</strong>{" "}
-                                <span className="text-gray-600 dark:text-gray-400">
-                                    {instructor.instructorSpecialization?.length > 0
-                                        ? instructor.instructorSpecialization.join(", ")
-                                        : "N/A"}
-                                </span>
-                            </p>
-                            <p>
-                                <strong className="text-gray-700 dark:text-gray-300">Address:</strong>{" "}
-                                <span className="text-gray-600 dark:text-gray-400">
-                                    {instructor.instructorAddress || "N/A"}
-                                </span>
-                            </p>
+                        <CardContent className="space-y-2">
+                            <p><strong>Email:</strong> {instructor.instructorEmail}</p>
+                            <p><strong>Phone:</strong> {instructor.instructorPhone || "N/A"}</p>
+                            <p><strong>Specialization:</strong> {instructor.instructorSpecialization?.join(", ") || "N/A"}</p>
+                            <p><strong>Address:</strong> {instructor.instructorAddress || "N/A"}</p>
                         </CardContent>
                     </div>
-
-                    {/* Profile Picture */}
-                    <div className="w-44 h-48 my-auto mr-44 flex-shrink-0 relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 shadow-md bg-gray-50 dark:bg-gray-700">
+                    <div className="w-40 h-44 overflow-hidden rounded-lg border bg-gray-100 dark:bg-gray-700">
                         <img
                             src={instructor.instructorProfilePicture}
-                            alt={`${instructor.instructorName} Profile`}
+                            alt="Instructor"
                             className="w-full h-full object-cover"
                         />
                     </div>
                 </div>
             </Card>
 
-            {/* Additional Details */}
-            <Card className="mb-6 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg">
+            {/* Additional Info */}
+            <Card>
                 <CardHeader>
                     <CardTitle className="text-xl">Additional Information</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-2">
                     <p><strong>Qualification:</strong> {instructor.instructorQualification || "N/A"}</p>
                     <p><strong>Experience:</strong> {instructor.instructorExperience || "N/A"}</p>
                     <p><strong>Bio:</strong> {instructor.instructorBio || "N/A"}</p>
                     {instructor.instructorLinkedinProfile && (
-                        <p>
-                            <strong>LinkedIn:</strong>{" "}
-                            <a
-                                href={instructor.instructorLinkedinProfile}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 underline"
-                            >
-                                View Profile
-                            </a>
-                        </p>
+                        <p><strong>LinkedIn:</strong> <a href={instructor.instructorLinkedinProfile} className="text-blue-500 underline" target="_blank" rel="noreferrer">View</a></p>
                     )}
                 </CardContent>
             </Card>
 
-            {/* Tabs Section */}
-            <Tabs defaultValue="courses" className="mt-6">
-                <TabsList>
-                    <TabsTrigger value="courses">Courses</TabsTrigger>
-                    <TabsTrigger value="reviews">Reviews</TabsTrigger>
-                    <TabsTrigger value="statistics">Statistics</TabsTrigger>
-                </TabsList>
-
-                {/* Courses Tab */}
-                <TabsContent value="courses">
-                    <h3 className="text-lg font-semibold mb-4">Courses Taught</h3>
-                    {instructor.courses?.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {instructor.courses.map((course) => (
-                                <Card key={course.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                                    <CardHeader>
-                                        <CardTitle>{course.title}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p><strong>Category:</strong> {course.category}</p>
-                                        <p><strong>Duration:</strong> {course.duration} hours</p>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    ) : (
-                        <p>No courses available.</p>
-                    )}
-                </TabsContent>
-
-                {/* Reviews Tab */}
-                <TabsContent value="reviews">
-                    <h3 className="text-lg font-semibold mb-4">Reviews</h3>
-                    {instructor.reviews?.length > 0 ? (
-                        <ul>
-                            {instructor.reviews.map((review, index) => (
-                                <li key={index} className="mb-4">
-                                    <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                                        <CardContent>
-                                            <p><strong>{review.reviewerName}:</strong> {review.comment}</p>
-                                            <p>Rating: {review.rating}/5</p>
-                                        </CardContent>
-                                    </Card>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No reviews available.</p>
-                    )}
-                </TabsContent>
-
-                {/* Statistics Tab */}
-                <TabsContent value="statistics">
-                    <h3 className="text-lg font-semibold mb-4">Statistics</h3>
-                    <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                        <CardContent>
-                            <p><strong>Total Courses:</strong> {instructor.totalCourses || 0}</p>
-                            <p><strong>Total Students:</strong> {instructor.totalStudents || 0}</p>
-                            <p><strong>Average Rating:</strong> {instructor.averageRating || "N/A"}</p>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
-
-            {/* Modal for Update */}
+            {/* Modal */}
             {showModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg w-1/3">
-                        <h2 className="text-xl font-semibold mb-4">Update Instructor Details</h2>
-                        <form>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md">
+                        <h2 className="text-xl font-bold mb-4">Update Instructor</h2>
+                        <form onSubmit={handleUpdate} className="space-y-3">
                             {[
                                 { label: "Name", key: "instructorName" },
                                 { label: "Phone", key: "instructorPhone" },
@@ -226,36 +131,47 @@ function InstructorDetailsPage({ instructorId }) {
                                 { label: "Qualification", key: "instructorQualification" },
                                 { label: "Experience", key: "instructorExperience" },
                             ].map(({ label, key }) => (
-                                <label key={key} className="block mb-2">
-                                    {label}:
+                                <div key={key}>
+                                    <label className="block text-sm">{label}</label>
                                     <input
                                         type="text"
-                                        className="w-full p-2 border rounded mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                                        className="w-full mt-1 p-2 rounded border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                                         value={formData[key] || ""}
-                                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                                        onChange={(e) => handleInputChange(key, e.target.value)}
                                     />
-                                </label>
+                                </div>
                             ))}
-                            <label className="block mb-2">
-                                Bio:
+
+                            <div>
+                                <label className="block text-sm">Bio</label>
                                 <textarea
-                                    className="w-full p-2 border rounded mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                                    className="w-full mt-1 p-2 rounded border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                                     value={formData.instructorBio || ""}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, instructorBio: e.target.value })
-                                    }
+                                    onChange={(e) => handleInputChange("instructorBio", e.target.value)}
                                 />
-                            </label>
-                            <div className="flex justify-end mt-4">
-                                <Button onClick={() => setShowModal(false)} className="mr-2">Cancel</Button>
-                                <Button onClick={handleUpdate}>Save</Button>
+                            </div>
+
+                            <div className="flex justify-end gap-2 pt-4">
+                                <Button type="button" onClick={() => { setShowModal(false); setFormData(instructor); }} disabled={updating}>
+                                    Cancel
+                                </Button>
+                                <Button type="submit" disabled={updating}>
+                                    {updating ? (
+                                        <span className="flex items-center">
+                                            <span className="loader mr-2 w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
+                                            Saving...
+                                        </span>
+                                    ) : (
+                                        "Save"
+                                    )}
+                                </Button>
+
                             </div>
                         </form>
                     </div>
                 </div>
             )}
         </div>
-
     );
 }
 
