@@ -74,10 +74,13 @@ function StudentViewCoursesPage() {
   }
 
   async function fetchAllStudentViewCourses(filters, sort) {
+    setLoadingState(true);
+
     const query = new URLSearchParams({
       ...filters,
       sortBy: sort,
     });
+
     const response = await fetchStudentViewCourseListService(query);
     if (response?.success) {
       setStudentViewCoursesList(response?.data);
@@ -86,10 +89,14 @@ function StudentViewCoursesPage() {
   }
 
   async function handleCourseNavigate(getCurrentCourseId) {
+    setLoadingState(true);
+
     const response = await checkCoursePurchaseInfoService(
       getCurrentCourseId,
       auth?.user?._id
     );
+
+    setLoadingState(false);
 
     if (response?.success) {
       if (response?.data && !response?.isDetails) {
@@ -182,6 +189,8 @@ function StudentViewCoursesPage() {
               {studentViewCoursesList.length} Results
             </span>
           </div>
+
+          {/* course Display */}
           <div className="space-y-4">
             {studentViewCoursesList?.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
@@ -223,6 +232,12 @@ function StudentViewCoursesPage() {
           </div>
         </main>
       </div>
+
+      {(loadingState) && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
 
   );

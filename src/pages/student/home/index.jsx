@@ -11,8 +11,12 @@ import { AuthContext } from "@/context/auth-context";
 import { useNavigate } from "react-router-dom";
 
 function StudentHomePage() {
-  const { studentViewCoursesList, setStudentViewCoursesList } =
-    useContext(StudentContext);
+  const {
+    studentViewCoursesList,
+    setStudentViewCoursesList,
+    loadingState,
+    setLoadingState,
+  } = useContext(StudentContext);
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -28,15 +32,23 @@ function StudentHomePage() {
   }
 
   async function fetchAllStudentViewCourses() {
+    setLoadingState(true);
     const response = await fetchStudentViewCourseListService();
-    if (response?.success) setStudentViewCoursesList(response?.data);
+    if (response?.success) {
+      setStudentViewCoursesList(response?.data);
+      setLoadingState(false);
+    };
   }
 
   async function handleCourseNavigate(getCurrentCourseId) {
+    setLoadingState(true);
+
     const response = await checkCoursePurchaseInfoService(
       getCurrentCourseId,
       auth?.user?._id
     );
+
+    setLoadingState(false);
 
     if (response?.success) {
       if (response?.data && !response?.isDetails) {
@@ -119,6 +131,12 @@ function StudentHomePage() {
           )}
         </div>
       </section>
+
+      {(loadingState) && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 }
