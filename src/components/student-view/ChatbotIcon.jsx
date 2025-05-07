@@ -17,8 +17,9 @@ const ChatbotIcon = () => {
   return (
     <>
       <div
-        className="text-3xl text-black dark:text-white fixed bottom-5 right-5 cursor-pointer z-[1000]"
+        className="text-4xl text-black dark:text-white fixed bottom-10 right-12 cursor-pointer z-[1000] animate-float"
         onClick={handleIconClick}
+        title="Chat with us!"
       >
         💬
       </div>
@@ -30,6 +31,6 @@ const ChatbotIcon = () => {
       )}
     </>
   );
-}
+};
 
-export default ChatbotIcon
+export default ChatbotIcon;
