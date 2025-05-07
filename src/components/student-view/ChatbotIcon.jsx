@@ -1,9 +1,8 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/auth-context";
 import Chatbot from "./Chatbot";
-import "./ChatbotIcon.css";
 
-export default function ChatbotIcon() {
+const ChatbotIcon = () => {
   const [showChatbot, setShowChatbot] = useState(false);
   const { auth } = useContext(AuthContext);
 
@@ -17,9 +16,13 @@ export default function ChatbotIcon() {
 
   return (
     <>
-      <div className="chatbot-icon" onClick={handleIconClick}>
+      <div
+        className="text-3xl text-black dark:text-white fixed bottom-5 right-5 cursor-pointer z-[1000]"
+        onClick={handleIconClick}
+      >
         💬
       </div>
+
       {showChatbot && auth.authenticate && (
         <div className="chatbot-container">
           <Chatbot onClose={handleCloseChatbot} />
@@ -28,3 +31,5 @@ export default function ChatbotIcon() {
     </>
   );
 }
+
+export default ChatbotIcon
