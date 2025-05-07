@@ -198,7 +198,7 @@ export async function updateInstructorService(id, formData) {
     `/admin/instructors/update-instructor/${id}`,
     formData
   );
-
+  
   return data;
 }
 

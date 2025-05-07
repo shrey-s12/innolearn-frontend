@@ -9,14 +9,20 @@ import { useNavigate } from "react-router-dom";
 
 function StudentCoursesPage() {
     const { auth } = useContext(AuthContext);
-    const { studentBoughtCoursesList, setStudentBoughtCoursesList } =
-        useContext(StudentContext);
+    const {
+        studentBoughtCoursesList,
+        setStudentBoughtCoursesList,
+        loadingState,
+        setLoadingState,
+    } = useContext(StudentContext);
     const navigate = useNavigate();
 
     async function fetchStudentBoughtCourses() {
+        setLoadingState(true);
         const response = await fetchStudentBoughtCoursesService(auth?.user?._id);
         if (response?.success) {
             setStudentBoughtCoursesList(response?.data);
+            setLoadingState(false);
         }
     }
     useEffect(() => {
@@ -27,7 +33,9 @@ function StudentCoursesPage() {
         <div className="p-4 dark:bg-gray-900 dark:text-white">
             <h1 className="text-3xl font-bold mb-8">My Courses</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                {studentBoughtCoursesList?.length > 0 ? (
+                {loadingState ? (
+                    <></>
+                ) : studentBoughtCoursesList?.length > 0 ? (
                     studentBoughtCoursesList.map((course) => (
                         <Card key={course.id} className="flex flex-col dark:bg-gray-800 dark:border-gray-700">
                             <CardContent className="p-4 flex-grow">
@@ -60,6 +68,12 @@ function StudentCoursesPage() {
                     <h1 className="text-3xl font-bold dark:text-white">No Courses found</h1>
                 )}
             </div>
+
+            {(loadingState) && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
         </div>
     );
 }

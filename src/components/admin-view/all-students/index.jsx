@@ -1,9 +1,11 @@
+import { AdminContext } from "@/context/admin-context";
 import { StudentContext } from "@/context/student-context";
 import { fetchAllStudentsService } from "@/services";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function TotalStudents() {
+  const { loadingState, setLoadingState } = useContext(AdminContext);
   const { studentsLists, setStudentsLists } = useContext(StudentContext);
   const navigate = useNavigate();
 
@@ -12,8 +14,12 @@ function TotalStudents() {
   }, []);
 
   async function fetchAllStudents() {
+    setLoadingState(true);
     const response = await fetchAllStudentsService();
-    if (response?.success) setStudentsLists(response?.data);
+    if (response?.success) {
+      setStudentsLists(response?.data);
+      setLoadingState(false);
+    }
   }
 
   return (
@@ -49,6 +55,12 @@ function TotalStudents() {
           <h1 className="text-gray-800 dark:text-gray-200">No Students Found</h1>
         )}
       </div>
+
+      {(loadingState) && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </section>
   );
 }

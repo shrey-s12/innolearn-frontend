@@ -23,6 +23,7 @@ function AuthPage() {
     setSignUpFormData,
     handleRegisterUser,
     handleLoginUser,
+    formLoading,
   } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
 
@@ -111,8 +112,9 @@ function AuthPage() {
                   buttonText="Sign In"
                   formData={signInFormData}
                   setFormData={setSignInFormData}
-                  isButtonDisabled={!checkIfSignInFormIsValid()}
+                  isButtonDisabled={!checkIfSignInFormIsValid() || formLoading}
                   handleSubmit={handleLoginUser}
+                  loading={formLoading}
                 />
               </CardContent>
             </Card>
@@ -133,8 +135,9 @@ function AuthPage() {
                   buttonText="Sign Up"
                   formData={signUpFormData}
                   setFormData={setSignUpFormData}
-                  isButtonDisabled={!checkIfSignUpFormIsValid()}
+                  isButtonDisabled={!checkIfSignUpFormIsValid() || formLoading}
                   handleSubmit={handleRegisterUser}
+                  loading={formLoading}
                 />
               </CardContent>
             </Card>

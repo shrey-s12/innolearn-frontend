@@ -16,7 +16,8 @@ function CreateInstructor() {
         mediaUploadProgress,
         setMediaUploadProgress,
         mediaUploadProgressPercentage,
-        setMediaUploadProgressPercentage
+        setMediaUploadProgressPercentage,
+        loadingState
     } = useContext(AdminContext);
 
     async function handleImageUploadChange(event) {
@@ -70,9 +71,15 @@ function CreateInstructor() {
                     <Button
                         className="text-sm font-semibold px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50"
                         type="submit"
-                        disabled={!checkIfCreateInstructorFormIsValid()}
+                        disabled={!checkIfCreateInstructorFormIsValid() || loadingState}
                     >
-                        Create Instructor
+                        {loadingState ? (
+                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        ) : (
+                            "Create Instructor"
+                        )}
                     </Button>
                 </CardHeader>
 
