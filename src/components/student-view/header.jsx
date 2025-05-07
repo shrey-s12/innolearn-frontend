@@ -15,8 +15,6 @@ function StudentViewCommonHeader({ user }) {
         sessionStorage.clear();
     }
 
-    console.log("user", user);
-
     return (
         <header className="flex items-center justify-between p-4 border-b bg-white dark:bg-background dark:text-foreground sticky top-0 left-0 w-full z-50">
             <div className="flex items-center space-x-4">
