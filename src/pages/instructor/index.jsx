@@ -95,19 +95,28 @@ function InstructorDashboardPage({ user }) {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
             <h1 className="text-3xl font-bold mb-0 text-gray-900 dark:text-white">Dashboard</h1>
-            <button
-              onClick={toggleTheme}
-              className="flex items-center space-x-2 p-2 rounded-md bg-gray-200 dark:bg-gray-700 transition-colors"
-            >
-              {theme === "light" ? (
-                <Moon className="text-yellow-500 w-5 h-5" />
-              ) : (
-                <Sun className="text-orange-400 w-5 h-5" />
-              )}
-            </button>
-            <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
-              Welcome, <span className="text-violet-700 dark:text-violet-400">{user?.instructorName}</span>
-            </h2>
+            <div className="flex items-center space-x-4">
+
+              <img
+                src={user?.instructorImage}
+                alt="Profile"
+                className="w-9 h-9 rounded-full"
+              />
+
+              <button
+                onClick={toggleTheme}
+                className="flex items-center space-x-2 p-2 rounded-md bg-gray-200 dark:bg-gray-700 transition-colors"
+              >
+                {theme === "light" ? (
+                  <Moon className="text-yellow-500 w-5 h-5" />
+                ) : (
+                  <Sun className="text-orange-400 w-5 h-5" />
+                )}
+              </button>
+              <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
+                Welcome, <span className="text-violet-700 dark:text-violet-400">{user?.instructorName}</span>
+              </h2>
+            </div>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab}>
