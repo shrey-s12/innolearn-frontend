@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/auth-context";
 import { ThemeContext } from "@/context/theme-context";
 
-function StudentViewCommonHeader() {
+function StudentViewCommonHeader({ user }) {
     const navigate = useNavigate();
     const { resetCredentials } = useContext(AuthContext);
     const { theme, toggleTheme } = useContext(ThemeContext);
@@ -14,6 +14,8 @@ function StudentViewCommonHeader() {
         resetCredentials();
         sessionStorage.clear();
     }
+
+    console.log("user", user);
 
     return (
         <header className="flex items-center justify-between p-4 border-b bg-white dark:bg-background dark:text-foreground sticky top-0 left-0 w-full z-50">
@@ -39,6 +41,24 @@ function StudentViewCommonHeader() {
                 </div>
             </div>
             <div className="flex items-center space-x-4">
+                {/* Show hello username */}
+
+                <div className="hidden md:flex items-center space-x-2">
+                    <span className="text-[14px] md:text-[16px] font-medium">
+                        Hello, {user?.userName}
+                    </span>
+                </div>
+                <div
+                    className="hidden md:flex items-center space-x-2 cursor-pointer"
+                    onClick={() => navigate(`/student-profile/${user?._id}`)}
+                >
+                    <img
+                        src={user?.userImage}
+                        alt="Profile"
+                        className="w-9 h-9 rounded-full"
+                    />
+                </div>
+
                 <div className="flex gap-4 items-center">
                     <button
                         onClick={toggleTheme}
@@ -50,6 +70,7 @@ function StudentViewCommonHeader() {
                             <Sun className="text-orange-400 w-5 h-5" />
                         )}
                     </button>
+
                     <div
                         onClick={() => navigate("/student-courses")}
                         className="flex cursor-pointer items-center gap-3"
@@ -59,10 +80,12 @@ function StudentViewCommonHeader() {
                         </span>
                         <TvMinimalPlay className="w-8 h-8 cursor-pointer" />
                     </div>
+
+
                     <Button onClick={handleLogout}>Sign Out</Button>
                 </div>
             </div>
-        </header>
+        </header >
     );
 }
 

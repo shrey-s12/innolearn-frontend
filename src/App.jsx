@@ -94,7 +94,7 @@ function App() {
         path="/"
         element={
           <RouteGuard
-            element={<StudentViewCommonLayout />}
+            element={<StudentViewCommonLayout user={auth?.user} />}
             authenticated={auth?.authenticate}
             user={auth?.user}
           />
@@ -103,6 +103,7 @@ function App() {
         <Route path="" element={<StudentHomePage />} />
         <Route path="home" element={<StudentHomePage />} />
         <Route path="courses" element={<StudentViewCoursesPage />} />
+        <Route path="student-profile/:id" element={<StudentDetailPage />} />
         <Route
           path="course/details/:id"
           element={<StudentViewCourseDetailsPage />}
