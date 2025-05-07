@@ -25,6 +25,8 @@ import { useContext, useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+const MAIN_URL = import.meta.env.VITE_MAIN_API_URL;
+
 function StudentViewCourseProgressPage() {
   const [live, setLive] = useState('');
   const navigate = useNavigate();

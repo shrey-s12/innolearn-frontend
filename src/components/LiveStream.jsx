@@ -85,31 +85,31 @@ function LiveStream() {
     };
 
     return (
-        <div className="live-stream-container">
+        <div className="live-stream-container text-gray-900 dark:text-gray-100">
             <h2 className="text-2xl font-bold mb-4">Share Live Stream Link</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="form-group">
-                    <label htmlFor="courseId" className="block text-sm font-semibold">Course ID</label>
+                    <label htmlFor="courseId" className="block text-sm font-semibold dark:text-gray-300">Course ID</label>
                     <input
                         type="text"
                         id="courseId"
                         value={id}
                         placeholder="Enter Course ID"
-                        className="w-[500px] p-2 border border-gray-300 rounded"
+                        className="w-[500px] p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white rounded"
                         required
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="meetingLink" className="block text-sm font-semibold">Meeting Link</label>
+                    <label htmlFor="meetingLink" className="block text-sm font-semibold dark:text-gray-300">Meeting Link</label>
                     <input
                         type="text"
                         id="meetingLink"
                         value={meetingLink}
                         onChange={(e) => setMeetingLink(e.target.value)}
                         placeholder="Enter Meeting Link"
-                        className="w-[500px] p-2 border border-gray-300 rounded"
+                        className="w-[500px] p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white rounded"
                         required
                     />
                 </div>
@@ -117,37 +117,48 @@ function LiveStream() {
                 <div className="form-group flex justify-between items-center">
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
+                        className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded disabled:bg-gray-400 dark:disabled:bg-gray-500"
                         disabled={loading}
                     >
-                        {loading ? "Submitting..." : "Submit"}
+                        {loading &&
+                            (<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                            </div>)
+                        }
+
+                        {!loading ? "Share Live Stream" : "Sharing..."}
                     </button>
                 </div>
             </form>
 
             {message && (
                 <div className="mt-4 text-sm">
-                    <p className={message.includes("Successfully") ? "text-green-600" : "text-red-600"}>
+                    <p className={message.includes("Successfully") ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>
                         {message}
                     </p>
                 </div>
             )}
 
             <div className="live-data-list mt-8">
-                <h3 className="text-xl font-semibold mb-2">Live Streams</h3>
+                <h3 className="text-xl font-semibold mb-2 dark:text-gray-100">Live Streams</h3>
                 {loadingData ? (
-                    <p>Loading...</p>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
                 ) : (
                     <ul className="space-y-2">
                         {liveData.map((item) => (
-                            <li key={item._id} className="flex justify-between items-center p-2 border border-gray-300 rounded">
-                                <span>
+                            <li
+                                key={item._id}
+                                className="flex justify-between items-center p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+                            >
+                                <span className="text-black dark:text-white">
                                     <strong>Course ID:</strong> {item.courseId} <br />
                                     <strong>Meeting Link:</strong> {item.meetingLink}
                                 </span>
                                 <button
                                     onClick={() => handleDelete(item._id)}
-                                    className="bg-red-500 text-white px-3 py-1 rounded"
+                                    className="bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white px-3 py-1 rounded"
                                 >
                                     Delete
                                 </button>
