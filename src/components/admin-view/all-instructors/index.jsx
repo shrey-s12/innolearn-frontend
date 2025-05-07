@@ -1,9 +1,11 @@
+import { AdminContext } from "@/context/admin-context";
 import { InstructorContext } from "@/context/instructor-context";
 import { fetchAllInstructorsService } from "@/services";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function AllInstructors() {
+  const { loadingState, setLoadingState } = useContext(AdminContext);
   const { instructorsList, setInstructorsList } = useContext(InstructorContext);
   const navigate = useNavigate();
 
@@ -12,8 +14,12 @@ function AllInstructors() {
   }, []);
 
   async function fetchAllInstructors() {
+    setLoadingState(true);
     const response = await fetchAllInstructorsService();
-    if (response?.success) setInstructorsList(response?.data);
+    if (response?.success) {
+      setInstructorsList(response?.data);
+      setLoadingState(false);
+    }
   }
 
   return (
@@ -49,6 +55,12 @@ function AllInstructors() {
           <h1 className="text-gray-800 dark:text-gray-200">No Instructors Found</h1>
         )}
       </div>
+
+      {(loadingState) && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </section>
   );
 }

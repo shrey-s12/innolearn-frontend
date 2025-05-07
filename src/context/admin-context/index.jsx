@@ -10,8 +10,9 @@ export default function AdminProvider({ children }) {
     );
 
     const [mediaUploadProgress, setMediaUploadProgress] = useState(false);
-    const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] =
-        useState(0);
+    const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] = useState(0);
+    const [loadingState, setLoadingState] = useState(true);
+
 
     async function handleCreateInstructor(event) {
         event.preventDefault();
@@ -28,6 +29,8 @@ export default function AdminProvider({ children }) {
                 setMediaUploadProgress,
                 mediaUploadProgressPercentage,
                 setMediaUploadProgressPercentage,
+                loadingState,
+                setLoadingState,
             }}
         >
             {children}

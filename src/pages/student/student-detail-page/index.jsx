@@ -11,6 +11,7 @@ function StudentDetailPage() {
     const navigate = useNavigate();
     const [student, setStudent] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [updating, setUpdating] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({});
 
@@ -23,13 +24,14 @@ function StudentDetailPage() {
 
     useEffect(() => {
         const fetchDetails = async () => {
+            setLoading(true);
             try {
                 const data = await fetchStudentDetailsService(id);
                 setStudent(data.data);
                 setFormData(data.data);
-                setLoading(false);
             } catch (error) {
                 console.error("Error fetching student details:", error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -37,7 +39,9 @@ function StudentDetailPage() {
         fetchDetails();
     }, [id]);
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        setUpdating(true);
         try {
             await updateStudentService(id, formData);
             const updatedDetails = await fetchStudentDetailsService(id);
@@ -45,7 +49,8 @@ function StudentDetailPage() {
             setShowModal(false);
         } catch (error) {
             console.error("Error updating student details:", error);
-            alert("Failed to update student details. Please try again.");
+        } finally {
+            setUpdating(false);
         }
     };
 
@@ -79,11 +84,15 @@ function StudentDetailPage() {
 
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+            </div>
+        );
     }
 
     if (!student) {
-        return <div>No student details found.</div>;
+        return <div className="text-center mt-10 text-gray-500">No student details found.</div>;
     }
 
     return (
@@ -429,9 +438,15 @@ function StudentDetailPage() {
                     </div>
 
                     {/* Buttons */}
-                    <Button onClick={handleUpdate} className="mt-4 bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
-                        Save Changes
+                    <Button disabled={updating || mediaUploadProgress} onClick={handleUpdate}>
+                        {updating ? 
+                        <span className="flex items-center">
+                            <span className="loader mr-2 w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
+                            Saving...
+                        </span> 
+                        : ("Save")}
                     </Button>
+
                     <Button
                         variant="secondary"
                         onClick={() => {
