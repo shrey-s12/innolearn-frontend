@@ -11,12 +11,20 @@ export default function AdminProvider({ children }) {
 
     const [mediaUploadProgress, setMediaUploadProgress] = useState(false);
     const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] = useState(0);
-    const [loadingState, setLoadingState] = useState(true);
+    const [loadingState, setLoadingState] = useState(false);
 
 
     async function handleCreateInstructor(event) {
         event.preventDefault();
+        setLoadingState(true);
         const data = await createInstructorService(createInstructorFormData);
+        setLoadingState(false);
+
+        if (data?.success) {
+            setCreateInstructorFormData(initialCreateInstructorFormData);
+            setMediaUploadProgress(false);
+            setMediaUploadProgressPercentage(0);
+        }
     }
 
     return (
