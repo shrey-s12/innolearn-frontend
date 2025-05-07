@@ -439,12 +439,12 @@ function StudentDetailPage() {
 
                     {/* Buttons */}
                     <Button disabled={updating || mediaUploadProgress} onClick={handleUpdate}>
-                        {updating ? 
-                        <span className="flex items-center">
-                            <span className="loader mr-2 w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
-                            Saving...
-                        </span> 
-                        : ("Save")}
+                        {updating ?
+                            <span className="flex items-center">
+                                <span className="loader mr-2 w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
+                                Saving...
+                            </span>
+                            : ("Save")}
                     </Button>
 
                     <Button
