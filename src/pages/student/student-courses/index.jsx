@@ -52,7 +52,7 @@ function StudentCoursesPage() {
                             <CardFooter>
                                 <Button
                                     onClick={() =>
-                                        navigate("/face-recognition", {
+                                        navigate(`/course-progress/${course?.courseId}`, {
                                             state: { courseId: course?.courseId },
                                         })
                                     }
